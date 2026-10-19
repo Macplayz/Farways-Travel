@@ -1,0 +1,147 @@
+@import url('https://fonts.googleapis.com/css2?family=Public+Sans:ital,wght@0,300;0,400;0,500;0,600;0,700;0,800;1,400&display=swap');
+
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+:root {
+  /* Farways Design Tokens */
+  --color-ink: #0E2A47;
+  --color-ocean: #1F63B0;
+  --color-ocean-dark: #164A85;
+  --color-sky: #F0F6FD;
+  --color-sky-deep: #D8E9FB;
+  --color-slate: #4A5A6B;
+  --color-line: #E2EBF4;
+  --color-green: #15803D;
+
+  --background: #F0F6FD;
+  --foreground: #0E2A47;
+  --surface: #FFFFFF;
+}
+
+@layer base {
+  * {
+    box-sizing: border-box;
+    border-color: #E2EBF4;
+  }
+
+  body {
+    background-color: var(--background);
+    color: var(--foreground);
+    font-family: 'Public Sans', var(--font-public-sans), -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+    min-height: 100vh;
+  }
+
+  /* Accessible focus indicators meeting WCAG 2.2 Level AA standard */
+  :focus-visible {
+    outline: 2px solid #1F63B0;
+    outline-offset: 2px;
+  }
+
+  /* Smooth, non-disruptive selection */
+  ::selection {
+    background-color: #D8E9FB;
+    color: #0E2A47;
+  }
+}
+
+@layer components {
+  /* HCI Research Component Utility Classes */
+  
+  /* Primary Action Button: Calm, decisive, no high-pressure pulsars */
+  .btn-primary {
+    @apply inline-flex items-center justify-center font-medium rounded-lg px-4 py-2.5 
+           bg-ocean text-white shadow-sm hover:bg-ocean-dark active:scale-[0.99]
+           transition-all duration-150 ease-in-out cursor-pointer text-sm;
+  }
+
+  /* Secondary Action Button: Transparent, high-clarity */
+  .btn-secondary {
+    @apply inline-flex items-center justify-center font-medium rounded-lg px-4 py-2.5 
+           bg-white text-ink border border-line hover:bg-sky active:scale-[0.99]
+           transition-all duration-150 ease-in-out cursor-pointer text-sm;
+  }
+
+  /* Transparent Card Container */
+  .farways-card {
+    @apply bg-white border border-line rounded-xl shadow-subtle p-5
+           transition-shadow duration-200 hover:shadow-card;
+  }
+
+  /* Honest Badging (strictly informative, never manipulative) */
+  .badge-honest {
+    @apply inline-flex items-center gap-1.5 px-2.5 py-1 rounded-md text-xs font-medium 
+           bg-sky text-ocean border border-sky-deep;
+  }
+
+  .badge-green {
+    @apply inline-flex items-center gap-1.5 px-2.5 py-1 rounded-md text-xs font-medium 
+           bg-green-50 text-green border border-green-200;
+  }
+
+  /* Research banner for study context */
+  .research-tag {
+    @apply inline-flex items-center gap-2 px-3 py-1 rounded-full text-xs font-semibold
+           bg-ink text-white tracking-wide uppercase;
+  }
+}
+
+/* Eliminate Artificial Urgency / Anxiety Triggers */
+/* Farways Rule: No pulsing red dots, no shaking elements, no flashing countdowns */
+@keyframes calm-fade {
+  from { opacity: 0; transform: translateY(4px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+.animate-calm {
+  animation: calm-fade 0.25s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+}
+
+/* Accessibility Customization Classes (Lab 3 Findings) */
+.high-contrast {
+  --color-ink: #000000 !important;
+  --color-slate: #1f2937 !important;
+  --color-line: #64748b !important;
+  --color-sky-deep: #93c5fd !important;
+}
+
+.text-scale-lg {
+  font-size: 1.075rem;
+}
+
+/* Clean Voucher Printing Support */
+@media print {
+  body {
+    background: #ffffff !important;
+    color: #000000 !important;
+  }
+
+  body * {
+    visibility: hidden;
+  }
+
+  #printable-voucher,
+  #printable-voucher * {
+    visibility: visible;
+  }
+
+  #printable-voucher {
+    position: absolute;
+    left: 0;
+    top: 0;
+    width: 100%;
+    margin: 0;
+    padding: 24px;
+    background: #ffffff !important;
+    border: none !important;
+    box-shadow: none !important;
+  }
+
+  header, nav, aside, button, .print\:hidden {
+    display: none !important;
+  }
+}
+
