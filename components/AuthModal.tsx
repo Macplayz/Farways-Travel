@@ -407,12 +407,12 @@ export function AuthModal() {
           </button>
         </form>
 
-        {/* 1-Click HCI Usability Lab Demo Accounts */}
+        {/* 1-Click Demo Profiles */}
         <div className="p-4 bg-sky/40 border-t border-line">
           <div className="flex items-center justify-between mb-2">
             <span className="text-[11px] font-bold text-slate uppercase tracking-wider flex items-center gap-1.5">
               <Sparkles className="w-3.5 h-3.5 text-ocean" />
-              <span>Usability Lab Demo Profiles (1-Click)</span>
+              <span>Instant Demo Profiles (1-Click)</span>
             </span>
           </div>
           <div className="grid grid-cols-2 gap-2 mb-2">
@@ -420,15 +420,15 @@ export function AuthModal() {
               type="button"
               onClick={() => {
                 demoLogin('evaluator');
-                toast.success('Logged in as Prof. Arvind Sharma (HCI Evaluator)');
+                toast.success('Logged in as Vikram Malhotra (Frequent Traveler)');
               }}
               className="col-span-2 px-3 py-2 rounded-lg bg-sky border border-sky-deep text-xs font-medium text-ink hover:border-ocean hover:bg-sky-deep/50 text-left transition-colors cursor-pointer flex items-center justify-between"
             >
               <div>
-                <div className="font-extrabold text-ocean">Prof. Arvind Sharma (HCI Evaluator)</div>
-                <div className="text-[10px] text-slate">evaluator@iit.ac.in · 1,500 Reward Pts</div>
+                <div className="font-extrabold text-ocean">Vikram Malhotra (Frequent Traveler)</div>
+                <div className="text-[10px] text-slate">vikram.malhotra@farways.in · 1,500 Reward Pts</div>
               </div>
-              <span className="text-[10px] font-bold bg-white px-2 py-0.5 rounded text-ocean border border-sky-deep">Faculty</span>
+              <span className="text-[10px] font-bold bg-white px-2 py-0.5 rounded text-ocean border border-sky-deep">Frequent Flyer</span>
             </button>
             <button
               type="button"

@@ -29,7 +29,7 @@ export function OrderSummaryCard({
   selectedAddons,
   stayNights = 1,
 }: OrderSummaryCardProps) {
-  // Live Sync timer state (Lab 8 MMT finding resolution)
+  // Live Sync timer state (Periodic fare verification)
   const [secondsAgo, setSecondsAgo] = useState(0);
   const [isSyncing, setIsSyncing] = useState(false);
 
@@ -83,7 +83,7 @@ export function OrderSummaryCard({
 
   return (
     <aside className="bg-white border border-line rounded-2xl p-5 sm:p-6 shadow-subtle space-y-5 sticky top-20">
-      {/* Live Inventory & Price Sync Badge (Lab 8 Finding) */}
+      {/* Live Inventory & Price Sync Badge */}
       <div className="flex items-center justify-between p-3 rounded-xl bg-sky/60 border border-sky-deep">
         <div className="flex items-center gap-2">
           <span className="relative flex h-2.5 w-2.5">

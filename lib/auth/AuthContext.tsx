@@ -28,8 +28,8 @@ const AuthContext = createContext<AuthContextType | undefined>(undefined);
 const DEMO_USERS: Record<string, UserProfile> = {
   evaluator: {
     id: 'usr-eval-01',
-    email: 'evaluator@iit.ac.in',
-    fullName: 'Prof. Arvind Sharma (HCI Evaluator)',
+    email: 'vikram.malhotra@farways.in',
+    fullName: 'Vikram Malhotra (Frequent Traveler)',
     phone: '9820198201',
     city: 'Mumbai',
     preferredCurrency: 'INR',
@@ -272,30 +272,36 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
 
     if (isSupabaseConfigured()) {
       try {
+        const origin = typeof window !== 'undefined' ? window.location.origin : '';
+        const emailRedirectTo = origin ? `${origin}/dashboard` : undefined;
+
+        const authOptions = {
+          emailRedirectTo,
+          data: { full_name: cleanName, marketing_opt_in: marketingOptIn, city: resolvedCity },
+        };
+
         const { data, error } = isIndianPhone
           ? await supabase.auth.signUp({
               phone: `+91${cleanId}`,
               password,
-              options: {
-                data: { full_name: cleanName, marketing_opt_in: marketingOptIn, city: resolvedCity },
-              },
+              options: authOptions,
             })
           : await supabase.auth.signUp({
               email: cleanId,
               password,
-              options: {
-                data: { full_name: cleanName, marketing_opt_in: marketingOptIn, city: resolvedCity },
-              },
+              options: authOptions,
             });
 
         if (error) {
+          // If Supabase auth errors on phone auth or endpoint restriction, fail gracefully
+          console.warn('[Supabase Auth] SignUp issue:', error.message);
           return { success: false, error: error.message };
         }
 
         if (data.user) {
           const profile: UserProfile = {
             id: data.user.id,
-            email: data.user.email || cleanId,
+            email: data.user.email || (cleanId.includes('@') ? cleanId : `${cleanId}@mobile.farways.in`),
             fullName: cleanName,
             phone: resolvedPhone,
             city: resolvedCity,
@@ -310,11 +316,15 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
           };
           await farwaysDataService.upsertUserProfile(profile);
           setUser(profile);
+          if (typeof window !== 'undefined') {
+            localStorage.setItem('farways_current_user', JSON.stringify(profile));
+          }
           closeAuthModal();
           return { success: true };
         }
       } catch (err: unknown) {
-        const message = err instanceof Error ? err.message : 'Sign up failed';
+        const message = err instanceof Error ? err.message : 'Sign up encountered a connection issue';
+        console.warn('[Supabase Auth] SignUp caught error:', err);
         return { success: false, error: message };
       }
     }

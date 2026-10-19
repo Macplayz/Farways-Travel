@@ -1,6 +1,5 @@
 /**
  * Farways - Honest, Transparent Travel Platform
- * IEEE HCI Research Project
  * 
  * TypeScript definitions eliminating dark patterns:
  * - Drip pricing eliminated via upfront breakdown: base_price, tax, platform_fee, total_price
@@ -35,7 +34,7 @@ export interface Addon {
   description: string;
   category: 'baggage' | 'insurance' | 'meal' | 'seat' | 'amenity' | 'cancellation_waiver';
   price: number;
-  defaultSelected: false; // Strictly enforced: default must never be true
+  defaultSelected: false; // Consumer guarantee: default must never be true
   transparentTerms: string; // Plain-English conditions without legal obfuscation
 }
 
@@ -361,7 +360,7 @@ export interface ToastItem {
 }
 
 /**
- * Session Recovery Draft Model (Lab 8 Non-destructive session recovery)
+ * Session Recovery Draft Model (Non-destructive session preservation)
  */
 export interface SessionDraft {
   id: string;

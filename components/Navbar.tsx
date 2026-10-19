@@ -13,11 +13,9 @@ import {
   User, 
   LogOut, 
   ChevronDown, 
-  RotateCcw,
   ShieldCheck
 } from 'lucide-react';
 import { useAuth } from '@/lib/auth/AuthContext';
-import { useSessionGuard } from '@/components/SessionGuard';
 import { DatabaseStatusPill } from '@/components/DatabaseStatusModal';
 
 interface NavItem {
@@ -114,7 +112,6 @@ function NavLinksMobile() {
 
 export function Navbar() {
   const { user, openAuthModal, signOut } = useAuth();
-  const { simulateSessionExpiration } = useSessionGuard();
 
   const [isUserMenuOpen, setIsUserMenuOpen] = useState(false);
   const userMenuRef = useRef<HTMLDivElement>(null);
@@ -220,20 +217,6 @@ export function Navbar() {
                         <span>My Dashboard & Bookings</span>
                       </Link>
 
-                      {/* HCI Lab 8 Simulation Trigger */}
-                      <button
-                        type="button"
-                        onClick={() => {
-                          setIsUserMenuOpen(false);
-                          simulateSessionExpiration();
-                        }}
-                        className="w-full flex items-center gap-2 px-3 py-2 text-xs font-medium text-slate hover:text-ink hover:bg-sky rounded-lg transition-colors text-left cursor-pointer"
-                        title="Simulate token expiration to test SessionGuard recovery"
-                      >
-                        <RotateCcw className="w-4 h-4 text-amber-600" />
-                        <span>Simulate Session Drop (Lab 8)</span>
-                      </button>
-
                       <div className="border-t border-line my-1"></div>
 
                       <button
@@ -273,7 +256,7 @@ export function Navbar() {
       </header>
 
       {/* =========================================================================
-          MOBILE-OPTIMIZED BOTTOM NAVIGATION BAR (Lab Mobile Tap Error Resolution)
+          MOBILE-OPTIMIZED BOTTOM NAVIGATION BAR
           Meets WCAG 2.5.5 Target Size: All interactive touch targets >= 44x44px
           ========================================================================= */}
       <nav

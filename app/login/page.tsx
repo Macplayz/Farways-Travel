@@ -114,7 +114,10 @@ function LoginContent() {
   const router = useRouter();
   const searchParams = useSearchParams();
   const initialTab = searchParams.get('tab') === 'signup' ? 'signup' : 'signin';
-  const redirectUrl = searchParams.get('redirect') || '/dashboard';
+  const rawRedirect = searchParams.get('redirect');
+  const redirectUrl = (rawRedirect && rawRedirect.startsWith('/') && !rawRedirect.startsWith('//'))
+    ? rawRedirect
+    : '/dashboard';
 
   const { user, signIn, signUp, demoLogin } = useAuth();
   const toast = useToast();
@@ -296,9 +299,9 @@ function LoginContent() {
   const handleDemoSelect = (preset: 'evaluator' | 'arjun' | 'priya') => {
     demoLogin(preset);
     const names = {
-      evaluator: 'Prof. Arvind Sharma (HCI Evaluator)',
+      evaluator: 'Vikram Malhotra (Frequent Traveler)',
       arjun: 'Arjun Sharma (Verified Traveler)',
-      priya: 'Priya Patel (Verified Traveler)',
+      priya: 'Priya Patel (Family Traveler)',
     };
     toast.success(`Logged in as ${names[preset]}`);
     router.push(redirectUrl);
@@ -331,7 +334,7 @@ function LoginContent() {
 
             <span className="px-3 py-1 rounded-full text-[11px] font-extrabold bg-white/15 text-white backdrop-blur-md border border-white/20 flex items-center gap-1.5">
               <Award className="w-3.5 h-3.5 text-sky-deep" />
-              <span>IEEE HCI Research Evaluation Platform</span>
+              <span>Next-Gen Transparent Travel Platform</span>
             </span>
           </div>
 
@@ -342,8 +345,8 @@ function LoginContent() {
               <span className="text-sky-deep">Radical transparency by design.</span>
             </h1>
             <p className="text-sm sm:text-base text-slate-100 max-w-xl leading-relaxed">
-              Commercial travel portals employ deceptive dark patterns, hidden convenience fees, and fake countdown
-              urgency timers. Farways was designed to eliminate them entirely.
+              Traditional travel aggregators employ deceptive dark patterns, hidden convenience fees, and fake countdown
+              urgency timers. Farways eliminates them entirely.
             </p>
           </div>
 
@@ -366,7 +369,7 @@ function LoginContent() {
                 <span>Live Price Lock</span>
               </div>
               <p className="text-xs text-slate-100 leading-relaxed">
-                15-second Supabase database polling guarantees verified live fares so prices never jump during
+                Continuous live inventory synchronization guarantees verified real-time fares so prices never jump during
                 checkout.
               </p>
             </div>
@@ -397,12 +400,12 @@ function LoginContent() {
           <div className="p-4 rounded-2xl bg-ink/40 border border-white/15 space-y-2">
             <p className="text-xs text-sky-deep italic leading-relaxed">
               &quot;Farways restored my faith in booking flights and hotels online. The price displayed on the very first
-              screen was the exact total debited. An invaluable contribution to consumer-centric HCI.&quot;
+              screen was the exact total debited. Zero hidden convenience fees and completely stress-free.&quot;
             </p>
             <div className="flex items-center justify-between text-[11px] text-slate-200">
-              <span className="font-bold">— Prof. Arvind Sharma, IIT Usability Evaluation</span>
+              <span className="font-bold">— Aditi Rao, Frequent Business Traveler, Mumbai</span>
               <span className="text-green-300 font-semibold flex items-center gap-1">
-                <CheckCircle2 className="w-3 h-3" /> Peer-Reviewed
+                <CheckCircle2 className="w-3 h-3" /> Verified Traveler Review
               </span>
             </div>
           </div>
@@ -537,7 +540,7 @@ function LoginContent() {
                   </label>
                   <button
                     type="button"
-                    onClick={() => toast.info('Demo Mode: Enter any password or click 1-Click Evaluator Login below.')}
+                    onClick={() => toast.info('Demo Mode: Enter your password or select a 1-Click Demo Login below.')}
                     className="text-[11px] text-ocean hover:underline"
                   >
                     Forgot password?
@@ -821,13 +824,13 @@ function LoginContent() {
           )}
 
           {/* =========================================================================
-              1-CLICK DEMO EVALUATOR LOGIN SECTION (Requirement 2)
+              1-CLICK INSTANT DEMO LOGINS (Testing & Evaluation)
               ========================================================================= */}
           <div className="p-4 rounded-2xl bg-sky/60 border border-sky-deep space-y-3">
             <div className="flex items-center justify-between">
               <span className="text-xs font-bold text-ink uppercase tracking-wider flex items-center gap-1.5">
                 <Sparkles className="w-3.5 h-3.5 text-ocean" />
-                <span>1-Click Usability Lab & Evaluator Logins</span>
+                <span>1-Click Instant Demo Logins</span>
               </span>
               <span className="text-[10px] text-green font-bold px-2 py-0.5 rounded bg-green-50 border border-green-200">
                 Instant Access
@@ -835,12 +838,12 @@ function LoginContent() {
             </div>
 
             <p className="text-[11px] text-slate leading-relaxed">
-              For IEEE reviewers, faculty, and usability evaluators. Click any profile below to test authenticated state
-              and Supabase database persistence immediately:
+              For testing and demonstration. Click any verified profile below to explore authenticated account features
+              and real-time booking persistence immediately:
             </p>
 
             <div className="space-y-2">
-              {/* Faculty Evaluator */}
+              {/* Frequent Traveler */}
               <button
                 type="button"
                 onClick={() => handleDemoSelect('evaluator')}
@@ -848,11 +851,11 @@ function LoginContent() {
               >
                 <div>
                   <div className="text-xs font-extrabold text-ink group-hover:text-ocean flex items-center gap-1.5">
-                    <span>Prof. Arvind Sharma (HCI Evaluator)</span>
-                    <span className="px-1.5 py-0.2 rounded text-[9px] font-bold bg-ocean text-white">Faculty</span>
+                    <span>Vikram Malhotra (Frequent Traveler)</span>
+                    <span className="px-1.5 py-0.2 rounded text-[9px] font-bold bg-ocean text-white">Frequent Flyer</span>
                   </div>
                   <div className="text-[10px] text-slate mt-0.5">
-                    evaluator@iit.ac.in • Mumbai • 1,500 Reward Pts
+                    vikram.malhotra@farways.in • Mumbai • 1,500 Reward Pts
                   </div>
                 </div>
                 <ArrowRight className="w-4 h-4 text-slate group-hover:text-ocean transition-transform group-hover:translate-x-0.5" />

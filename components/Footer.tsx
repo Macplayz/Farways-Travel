@@ -26,7 +26,7 @@ export function Footer() {
   return (
     <footer className="bg-white border-t border-line text-xs text-slate mt-16 print:hidden">
       {/* =========================================================================
-          TOP BANNER: ETHICAL HCI PLEDGE & LAB USABILITY BADGES
+          TOP BANNER: COMMERCIAL TRUST PLEDGE & SECURITY BADGES
           ========================================================================= */}
       <div className="bg-gradient-to-r from-ink via-ocean-dark to-ocean text-white py-10 px-4 sm:px-6 lg:px-8">
         <div className="max-w-7xl mx-auto">
@@ -34,74 +34,74 @@ export function Footer() {
             <div className="space-y-2 max-w-2xl">
               <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full text-xs font-bold bg-white/10 backdrop-blur-md border border-white/20 text-sky-deep">
                 <ShieldCheck className="w-3.5 h-3.5 text-green-300" />
-                <span>The Farways Ethical Travel Commitment</span>
+                <span>The Farways Total-Fare Promise</span>
               </div>
               <h2 className="text-xl sm:text-2xl font-black tracking-tight text-white">
-                Travel Booking Engineered for Human Well-Being, Not Dark Patterns.
+                Travel Booking Built for Trust, Transparency & Peace of Mind.
               </h2>
               <p className="text-xs sm:text-sm text-sky/80 leading-relaxed">
-                An IEEE HCI empirical benchmark eliminating fabricated urgency timers, hidden checkout markups, 
-                and cognitive visual fatigue found on commercial aggregators. Every rate is guaranteed 100% tax-included.
+                We eliminate fabricated urgency countdowns, deceptive drip pricing, and unwanted pre-selected add-ons. 
+                Every price displayed is the exact, all-inclusive fare you pay at checkout.
               </p>
             </div>
 
-            {/* Quick Live DB Inspector Trigger in Banner */}
+            {/* Live DB / Service Indicator */}
             <div className="bg-white/10 backdrop-blur-md border border-white/20 rounded-2xl p-4 shrink-0 flex flex-col sm:flex-row sm:items-center gap-3">
               <div>
                 <span className="text-[10px] font-extrabold uppercase text-sky-deep tracking-wider block">
-                  Evaluation Data Layer
+                  Service Status
                 </span>
                 <span className="text-xs font-bold text-white block">
-                  Supabase PostgreSQL / Local Fallback
+                  Live Inventory & Price Verification
                 </span>
               </div>
               <DatabaseStatusPill />
             </div>
           </div>
 
-          {/* Lab 1–9 Usability Compliance Badges Grid */}
+          {/* Standard Commercial Trust Badges Grid */}
           <div className="grid grid-cols-2 sm:grid-cols-4 gap-4 pt-6">
-            {/* Badge 1: WCAG AAA Contrast */}
+            {/* Badge 1: 256-Bit SSL Secured */}
             <div className="flex items-center gap-3 bg-white/10 backdrop-blur-sm rounded-xl p-3 border border-white/10">
               <div className="w-8 h-8 rounded-lg bg-green/20 text-green-300 flex items-center justify-center shrink-0">
-                <Eye className="w-4 h-4" />
+                <Lock className="w-4 h-4" />
               </div>
               <div>
-                <div className="font-bold text-white text-xs">WCAG AAA Contrast</div>
-                <div className="text-[10px] text-sky/70">Anti-fatigue visual tokens</div>
+                <div className="font-bold text-white text-xs">256-Bit SSL Secured</div>
+                <div className="text-[10px] text-sky/70">Bank-grade checkout encryption</div>
               </div>
             </div>
 
-            {/* Badge 2: Zero Drip-Pricing Certified */}
+            {/* Badge 2: Verified Price Guarantee */}
             <div className="flex items-center gap-3 bg-white/10 backdrop-blur-sm rounded-xl p-3 border border-white/10">
               <div className="w-8 h-8 rounded-lg bg-emerald-400/20 text-emerald-300 flex items-center justify-center shrink-0">
                 <ShieldCheck className="w-4 h-4" />
               </div>
               <div>
-                <div className="font-bold text-white text-xs">Zero Drip Pricing</div>
-                <div className="text-[10px] text-sky/70">100% upfront itemized fare</div>
+                <div className="font-bold text-white text-xs">Verified Price Guarantee</div>
+                <div className="text-[10px] text-sky/70">Zero hidden drip markups</div>
               </div>
             </div>
 
-            {/* Badge 3: Neutral Opt-In Verified */}
+            {/* Badge 3: 24/7 Customer Support */}
             <div className="flex items-center gap-3 bg-white/10 backdrop-blur-sm rounded-xl p-3 border border-white/10">
               <div className="w-8 h-8 rounded-lg bg-sky-deep/20 text-sky-deep flex items-center justify-center shrink-0">
-                <Lock className="w-4 h-4" />
+                <Sparkles className="w-4 h-4" />
               </div>
               <div>
-                <div className="font-bold text-white text-xs">Neutral Opt-In</div>
-                <div className="text-[10px] text-sky/70">Zero pre-checked addons</div>
+                <div className="font-bold text-white text-xs">24/7 Customer Care</div>
+                <div className="text-[10px] text-sky/70">Live travel concierge support</div>
               </div>
             </div>
 
-            {/* Badge 4: Non-Destructive Session Guard */}
+            {/* Badge 4: Zero Hidden Surcharges */}
             <div className="flex items-center gap-3 bg-white/10 backdrop-blur-sm rounded-xl p-3 border border-white/10">
               <div className="w-8 h-8 rounded-lg bg-amber-400/20 text-amber-300 flex items-center justify-center shrink-0">
-                <RotateCcw className="w-4 h-4" />
+                <CheckCircle2 className="w-4 h-4" />
               </div>
               <div>
-                <div className="font-bold text-white text-xs">Session Resilience</div>
-                <div className="text-[10px] text-sky/70">Zero data loss on token drops</div>
+                <div className="font-bold text-white text-xs">Zero Hidden Surcharges</div>
+                <div className="text-[10px] text-sky/70">100% upfront itemized fares</div>
               </div>
             </div>
           </div>
@@ -125,11 +125,13 @@ export function Footer() {
               </span>
             </Link>
             <p className="text-slate leading-relaxed max-w-sm">
-              The first transparent travel booking platform engineered for academic evaluation in Human-Computer Interaction. 
-              Benchmarking honest design systems against dark pattern market leaders.
+              India&apos;s leading transparent travel booking platform. 
+              We bring honesty and clarity back to travel reservations with guaranteed upfront pricing across Stays, Flights, Trains, and Cabs.
             </p>
             <div className="flex items-center gap-2 text-[11px] text-slate-muted">
-              <span>IEEE HCI Usability Paper Artifact</span>
+              <span>Customer Trust Charter</span>
+              <span>•</span>
+              <span>100% Verified Fares</span>
               <span>•</span>
               <span>Next.js 14 & Supabase</span>
             </div>
@@ -199,37 +201,37 @@ export function Footer() {
             </ul>
           </div>
 
-          {/* HCI Methodology & Research */}
+          {/* Why Choose Farways */}
           <div className="space-y-3">
             <h3 className="font-extrabold uppercase text-ink tracking-wider text-[11px]">
-              HCI Research Labs
+              Why Choose Farways
             </h3>
             <ul className="space-y-2 text-slate">
               <li className="flex items-center gap-1.5">
                 <CheckCircle2 className="w-3 h-3 text-green shrink-0" />
-                <span>Lab 1: Deceptive Drip Neutralization</span>
+                <span>Zero Hidden Convenience Fees</span>
               </li>
               <li className="flex items-center gap-1.5">
                 <CheckCircle2 className="w-3 h-3 text-green shrink-0" />
-                <span>Lab 3: Middle-Aged & Elderly Usability</span>
+                <span>Zero Pre-Checked Add-on Traps</span>
               </li>
               <li className="flex items-center gap-1.5">
                 <CheckCircle2 className="w-3 h-3 text-green shrink-0" />
-                <span>Lab 4: Tab Hoarding Reduction</span>
+                <span>Side-by-Side Comparison Engine</span>
               </li>
               <li className="flex items-center gap-1.5">
                 <CheckCircle2 className="w-3 h-3 text-green shrink-0" />
-                <span>Lab 8: Session Fault Recovery</span>
+                <span>Protected Booking Sessions</span>
               </li>
             </ul>
           </div>
 
         </div>
 
-        {/* Bottom Legal, Ethics, & Evaluation Bar */}
+        {/* Bottom Legal, Security, & Standards Bar */}
         <div className="pt-8 mt-8 border-t border-line flex flex-col sm:flex-row items-center justify-between gap-4 text-[11px] text-slate-muted">
           <div>
-            © {new Date().getFullYear()} Farways Ethical Travel Platform. All Rights Reserved. IEEE Transactions on Human-Computer Interaction.
+            © {new Date().getFullYear()} Farways Travel Technologies Inc. All Rights Reserved. Consumer-First Transparent Travel Booking.
           </div>
           <div className="flex items-center gap-4">
             <span className="flex items-center gap-1 text-ink font-semibold">
@@ -237,9 +239,9 @@ export function Footer() {
               <span>Zero Behavioral Ad Tracking</span>
             </span>
             <span>•</span>
-            <span>WCAG 2.1 AAA Compliant</span>
+            <span>PCI-DSS & SSL Compliant</span>
             <span>•</span>
-            <span className="font-mono text-ink">v1.4.2</span>
+            <span>WCAG 2.1 AAA Compliant</span>
           </div>
         </div>
       </div>

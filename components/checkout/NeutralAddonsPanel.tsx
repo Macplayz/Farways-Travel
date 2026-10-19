@@ -18,7 +18,7 @@ interface NeutralAddonsPanelProps {
   onToggleAddon: (addon: Addon) => void;
 }
 
-// Lab 4 Affinity Map Wireframe Addons (Strictly Opt-In)
+// Optional Travel Addons (Strictly Opt-In)
 const CORE_ADDONS: Addon[] = [
   {
     id: 'addon-insurance-trip',
@@ -63,7 +63,7 @@ export function NeutralAddonsPanel({
         <div>
           <div className="inline-flex items-center gap-1.5 px-2.5 py-0.5 rounded-full text-xs font-semibold bg-sky text-ocean border border-sky-deep mb-1">
             <ShieldCheck className="w-3.5 h-3.5 text-green" />
-            <span>Neutral Opt-In Principle (Lab 4 Wireframe)</span>
+            <span>Zero-Pressure Add-Ons · Strictly Opt-In</span>
           </div>
           <h3 className="text-base font-bold text-ink">
             Optional Trip Enhancements

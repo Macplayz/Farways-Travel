@@ -50,12 +50,12 @@ export default async function HomePage() {
             </h1>
 
             <p className="text-sm sm:text-base text-sky/90 leading-relaxed mb-8">
-              Farways is an IEEE HCI research platform benchmarked against MakeMyTrip and Booking.com. 
-              We eliminated deceptive drip pricing, manufactured scarcity countdowns, pre-checked baskets, 
-              and cognitive visual clutter in favor of radical clarity.
+              Farways is India&apos;s next-generation transparent travel booking platform. 
+              We eliminated deceptive drip pricing, manufactured scarcity countdowns, pre-checked add-on traps, 
+              and cognitive clutter in favor of radical honesty and true all-inclusive pricing.
             </p>
 
-            {/* Farways Total-Fare Promise Box (Requirement 1) */}
+            {/* Farways Total-Fare Promise Box */}
             <div className="bg-white/10 backdrop-blur-md border border-white/20 rounded-2xl p-5 sm:p-6 shadow-subtle text-xs space-y-3.5">
               <div className="flex items-center justify-between pb-2 border-b border-white/15">
                 <span className="font-extrabold uppercase tracking-wider text-sky-deep text-[11px] flex items-center gap-1.5">
@@ -63,7 +63,7 @@ export default async function HomePage() {
                   <span>The Farways Total-Fare Promise</span>
                 </span>
                 <span className="text-[10px] px-2 py-0.5 rounded bg-green-500/30 text-green-200 border border-green-400/30 font-bold">
-                  Strictly Enforced
+                  100% Guaranteed
                 </span>
               </div>
 
@@ -122,19 +122,19 @@ export default async function HomePage() {
         </Suspense>
 
         {/* =========================================================================
-            3. IEEE HCI RESEARCH METHODOLOGY FOOTER SUMMARY
+            3. COMMERCIAL VALUE PROPOSITION & CONSUMER PLEDGE
             ========================================================================= */}
         <section className="bg-white border border-line rounded-2xl p-6 sm:p-8 shadow-subtle text-xs text-slate space-y-4">
           <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3 pb-3 border-b border-line">
             <div className="flex items-center gap-2">
-              <span className="font-bold text-ink text-sm">IEEE HCI Empirical Evaluation Setup</span>
+              <span className="font-bold text-ink text-sm">The Farways Travel Charter</span>
               <span className="text-[10px] font-semibold px-2 py-0.5 rounded bg-sky text-ocean border border-sky-deep">
-                Benchmark Control Group
+                Consumer-First Guarantee
               </span>
             </div>
             <div className="flex items-center gap-3">
               <span className="text-[11px] text-slate-muted hidden sm:inline">
-                Data Driver: {isConnected ? 'Supabase PostgreSQL Cloud' : 'Local In-Memory Driver'}
+                Live Data Engine: {isConnected ? 'Enterprise Cloud Verified' : 'Standard Engine'}
               </span>
               <DatabaseStatusPill />
             </div>
@@ -142,23 +142,23 @@ export default async function HomePage() {
 
           <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
             <div>
-              <h4 className="font-bold text-ink mb-1">Drip Pricing Elimination</h4>
+              <h4 className="font-bold text-ink mb-1">True Upfront Pricing</h4>
               <p className="leading-relaxed">
-                By comparing base fare, taxes, and platform markup upfront, Farways neutralizes the sunk-cost fallacy where travelers accept unexpected 20%+ price increases after filling out multi-page passenger forms.
+                By comparing base fare, taxes, and platform markup upfront, Farways ensures the price you see on the first search card is the exact final amount charged at payment.
               </p>
             </div>
 
             <div>
-              <h4 className="font-bold text-ink mb-1">Cognitive Load Reduction</h4>
+              <h4 className="font-bold text-ink mb-1">Side-by-Side Comparison</h4>
               <p className="leading-relaxed">
-                The side-by-side comparison tray eliminates 10+ browser tab hoarding observed during usability labs, allowing consumers to cross-reference cancellation terms and flight legroom in a single view.
+                Our intuitive comparison engine eliminates tab overload, allowing travelers to cross-reference room amenities, cancellation rules, baggage policies, and flight durations in a unified layout.
               </p>
             </div>
 
             <div>
-              <h4 className="font-bold text-ink mb-1">Session Resilience (Lab 8)</h4>
+              <h4 className="font-bold text-ink mb-1">Protected Booking Sessions</h4>
               <p className="leading-relaxed">
-                Non-destructive session preservation guards in-progress reservations against silent cookie expiration, guaranteeing zero data loss during high-stress checkout workflows.
+                Intelligent session preservation guards your in-progress reservations against unexpected tab closures or timeouts, guaranteeing zero data re-entry during checkout.
               </p>
             </div>
           </div>

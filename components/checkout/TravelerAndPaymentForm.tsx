@@ -87,9 +87,9 @@ export function TravelerAndPaymentForm({
       if (draft.formData.email) setEmail(draft.formData.email as string);
       if (draft.formData.phone) setPhone(draft.formData.phone as string);
       if (draft.formData.cardholderName) setCardholderName(draft.formData.cardholderName as string);
-      toast.info('Restored your draft traveler information safely.', 'Draft Loaded');
+      // Silently restores state without intrusive toast notification spam
     }
-  }, [getDraft, item.id, itemType, toast]);
+  }, [getDraft, item.id, itemType]);
 
   // Synchronize traveler state when user profile is loaded from database/session
   useEffect(() => {
@@ -101,7 +101,7 @@ export function TravelerAndPaymentForm({
     }
   }, [user]);
 
-  // Continuously preserve draft state in sessionStorage (Lab 8 resolution)
+  // Continuously preserve draft state in sessionStorage
   useEffect(() => {
     saveDraft(`checkout_${itemType}_${item.id}`, {
       fullName,
@@ -227,7 +227,7 @@ export function TravelerAndPaymentForm({
     }
   };
 
-  // 1-Click Usability Lab Quick Fill Test Data
+  // 1-Click Fast-Fill Test Data for fast checkout demonstration
   const fillTestData = () => {
     setFullName('Arjun Sharma');
     setEmail('arjun.sharma@example.com');
@@ -238,7 +238,7 @@ export function TravelerAndPaymentForm({
     setExpiry('12/28');
     setCvv('784');
     setErrors({});
-    toast.success('Usability lab test credentials loaded.', 'Form Autofilled');
+    toast.success('Sample traveler details autofilled.', 'Form Autofilled');
   };
 
   const handleSubmit = async (e: React.FormEvent) => {
@@ -343,18 +343,18 @@ export function TravelerAndPaymentForm({
 
   return (
     <form onSubmit={handleSubmit} noValidate className="space-y-6">
-      {/* 1-Click Usability Lab Quick Autofill Bar */}
+      {/* 1-Click Express Autofill Bar */}
       <div className="flex items-center justify-between p-3 rounded-xl bg-sky border border-line text-xs">
         <span className="font-bold text-ink flex items-center gap-1.5">
           <Sparkles className="w-3.5 h-3.5 text-ocean" />
-          <span>HCI Usability Lab Fast-Fill</span>
+          <span>Express Autofill (Demo / Testing)</span>
         </span>
         <button
           type="button"
           onClick={fillTestData}
           className="btn-secondary py-1 px-2.5 text-[11px] font-bold"
         >
-          Autofill Test Data
+          1-Click Quick Fill
         </button>
       </div>
 

@@ -3,17 +3,18 @@ import "./globals.css";
 import { Providers } from "@/components/Providers";
 
 export const metadata: Metadata = {
-  title: "Farways | Honest, Clutter-Free Travel Booking",
+  title: "Farways | Transparent Travel Booking · Stays, Flights, Trains & Cabs",
   description:
-    "An IEEE HCI research travel booking platform resolving dark patterns, hidden drip fees, and visual clutter across Stays, Flights, and Cabs.",
+    "Book hotels, flights, trains, and cabs across India with zero hidden fees, zero drip pricing, and 100% transparent all-inclusive fares.",
   keywords: [
-    "ethical travel",
-    "transparent pricing",
-    "no dark patterns",
-    "hotel booking",
-    "flight booking",
-    "airport cab",
-    "HCI research",
+    "transparent travel booking",
+    "zero hidden fees",
+    "hotels in india",
+    "cheap flights",
+    "indian railways",
+    "airport cab transfers",
+    "honest pricing",
+    "farways travel",
   ],
 };
 

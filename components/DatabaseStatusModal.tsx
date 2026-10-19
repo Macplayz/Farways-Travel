@@ -146,7 +146,7 @@ export function DatabaseStatusModal({ isOpen, onClose }: DatabaseStatusModalProp
             <div className="space-y-1">
               <div className="inline-flex items-center gap-1.5 px-2.5 py-0.5 rounded-full text-xs font-semibold bg-white/10 backdrop-blur-md border border-white/20 text-sky-deep">
                 <Database className="w-3.5 h-3.5 text-green-300" />
-                <span>HCI Usability Lab 8 · Live PostgreSQL Connectivity</span>
+                <span>Production Architecture · Live PostgreSQL Engine</span>
               </div>
               <h2 id="db-modal-title" className="text-xl font-extrabold tracking-tight">
                 Database Status & Inspector
@@ -365,11 +365,11 @@ export function DatabaseStatusModal({ isOpen, onClose }: DatabaseStatusModalProp
             </div>
           </div>
 
-          {/* HCI Usability & Nielsen Heuristic Callout */}
+          {/* System Observability & Reliability Callout */}
           <div className="p-4 rounded-2xl bg-sky/50 border border-sky-deep text-xs space-y-2">
             <div className="flex items-center gap-1.5 font-bold text-ink">
               <ShieldCheck className="w-4 h-4 text-green" />
-              <span>Nielsen Heuristic #1: Visibility of System Status</span>
+              <span>Enterprise Observability & Real-Time Status</span>
             </div>
             <p className="text-slate leading-relaxed">
               Unlike commercial travel portals that hide API failovers, Farways provides real-time latency auditing, 

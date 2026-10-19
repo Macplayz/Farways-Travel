@@ -56,7 +56,7 @@ export function SessionGuardProvider({ children }: { children: React.ReactNode }
     reloadLatestDraft();
   }, [reloadLatestDraft]);
 
-  // Track session termination while draft is active (Lab 8 Finding)
+  // Track session termination while draft is active
   useEffect(() => {
     if (user) {
       setLastUserSnapshot(user.id);
@@ -112,11 +112,11 @@ export function SessionGuardProvider({ children }: { children: React.ReactNode }
   }, [reloadLatestDraft]);
 
   const simulateSessionExpiration = useCallback(() => {
-    // Manually simulate Lab 8 auth token drop without losing form drafts
+    // Manually simulate auth token refresh without losing form drafts
     if (!activeDraft) {
       saveDraft('simulated-checkout', {
         travelerName: 'Dr. Ananya Roy',
-        travelerEmail: 'ananya.roy@hci-lab.ac.in',
+        travelerEmail: 'ananya.roy@example.com',
         travelerPhone: '9811223344',
         specialRequests: 'Quiet room on upper floor',
       }, {
@@ -147,7 +147,7 @@ export function SessionGuardProvider({ children }: { children: React.ReactNode }
     >
       {children}
 
-      {/* Non-Destructive Session Recovery Modal (Lab 8 Finding Resolution) */}
+      {/* Non-Destructive Session Recovery Modal */}
       {showRecoveryModal && (
         <div
           role="dialog"

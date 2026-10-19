@@ -168,7 +168,7 @@ export function AiSupportWidget() {
       return {
         id: `ai-${Date.now()}`,
         sender: 'assistant',
-        text: `**Farways Radical Transparency Manifesto (IEEE HCI Research):**
+        text: `**Farways Customer Transparency Charter:**
 
 1. **Zero Drip Pricing**: Commercial OTAs show low base rates and append 25-35% in hidden "convenience fees" at checkout. Farways shows the 100% all-inclusive net total upfront on every card.
 2. **Zero Fake Scarcity**: We strictly prohibit false scarcity countdowns ("Only 1 room left!", "14 people looking now").
@@ -475,7 +475,7 @@ export function AiSupportWidget() {
                 <ShieldCheck className="w-3 h-3 text-green" />
                 <span>Anti-Drip Guard Active</span>
               </span>
-              <span>IEEE HCI Project</span>
+              <span>Verified Fares · 24/7 Support</span>
             </div>
           </div>
         </aside>

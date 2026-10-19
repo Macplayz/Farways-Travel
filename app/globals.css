@@ -49,7 +49,7 @@
 }
 
 @layer components {
-  /* HCI Research Component Utility Classes */
+  /* Core Design System Component Classes */
   
   /* Primary Action Button: Calm, decisive, no high-pressure pulsars */
   .btn-primary {
@@ -100,7 +100,7 @@
   animation: calm-fade 0.25s cubic-bezier(0.16, 1, 0.3, 1) forwards;
 }
 
-/* Accessibility Customization Classes (Lab 3 Findings) */
+/* Accessibility Customization Classes (High Contrast & Large Text) */
 .high-contrast {
   --color-ink: #000000 !important;
   --color-slate: #1f2937 !important;

@@ -2,8 +2,9 @@ import { createClient, SupabaseClient } from '@supabase/supabase-js';
 import { MOCK_STAYS, MOCK_FLIGHTS, MOCK_CABS, MOCK_TRAINS } from '@/lib/data/mockData';
 import { Booking, Train, Stay, Flight, Cab, UserProfile, DbUserProfile } from '@/types/farways';
 
-const supabaseUrl = process.env.NEXT_PUBLIC_SUPABASE_URL;
-const supabaseAnonKey = process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY;
+const rawUrl = process.env.NEXT_PUBLIC_SUPABASE_URL?.trim();
+const supabaseUrl = rawUrl ? rawUrl.replace(/\/+$/, '') : undefined;
+const supabaseAnonKey = process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY?.trim();
 
 /**
  * Checks if real Supabase environment variables are connected.
@@ -913,8 +914,8 @@ export const farwaysDataService = {
       const demoProfiles = [
         {
           id: 'usr-eval-01',
-          email: 'evaluator@iit.ac.in',
-          full_name: 'Prof. Arvind Sharma (HCI Evaluator)',
+          email: 'vikram.malhotra@farways.in',
+          full_name: 'Vikram Malhotra (Frequent Traveler)',
           phone: '9820198201',
           city: 'Mumbai',
           preferred_currency: 'INR',

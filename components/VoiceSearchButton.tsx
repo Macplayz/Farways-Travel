@@ -274,8 +274,8 @@ export function VoiceSearchButton({ onVoiceCommand, className = '' }: VoiceSearc
             </div>
 
             <div className="p-3 rounded-xl bg-sky/50 border border-sky-deep text-xs text-slate">
-              <span className="font-bold text-ink block mb-0.5">HCI Lab 8 Multimodal Accessibility:</span>
-              Voice commands allow travelers with physical tremors or mobile driving scenarios to navigate modes without repetitive taps.
+              <span className="font-bold text-ink block mb-0.5">Hands-Free Accessibility & Navigation:</span>
+              Voice commands allow travelers to search inventory quickly and hands-free without repetitive typing.
             </div>
 
             {/* Quick Test Voice Commands */}

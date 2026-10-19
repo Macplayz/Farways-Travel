@@ -20,7 +20,7 @@ export function PreferencesView() {
   const { user } = useAuth();
   const toast = useToast();
 
-  // Accessibility state (Lab 3 Findings)
+  // Accessibility state (High contrast & text scaling)
   const [highContrast, setHighContrast] = useState(user?.highContrastMode ?? false);
   const [largerText, setLargerText] = useState(user?.largeTextMode ?? false);
   const [reducedMotion, setReducedMotion] = useState(false);
@@ -109,13 +109,13 @@ export function PreferencesView() {
           <div>
             <div className="inline-flex items-center gap-1.5 px-2.5 py-0.5 rounded-full text-xs font-semibold bg-sky text-ocean border border-sky-deep mb-1">
               <Accessibility className="w-3.5 h-3.5 text-ocean" />
-              <span>Accessibility & HCI Usability Customization</span>
+              <span>Accessibility & Display Preferences</span>
             </div>
             <h3 className="text-lg font-bold text-ink">
               Profile & Accessibility Preferences
             </h3>
             <p className="text-xs text-slate">
-              Customized based on our Lab 3 Usability findings for middle-aged, elderly, and visual-fatigue travelers.
+              Enhanced visual controls designed for optimal readability, high contrast, and reduced eye fatigue.
             </p>
           </div>
 
@@ -133,7 +133,7 @@ export function PreferencesView() {
         <div className="pt-4 space-y-4">
           <h4 className="text-xs font-extrabold uppercase tracking-wider text-ink flex items-center gap-2">
             <Eye className="w-4 h-4 text-ocean" />
-            <span>Visual Accessibility (Lab 3 Usability Study)</span>
+            <span>Visual Accessibility & Contrast</span>
           </h4>
 
           <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">

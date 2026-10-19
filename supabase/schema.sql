@@ -1,6 +1,6 @@
 -- ============================================================================
--- FARWAYS TRAVEL PLATFORM - IEEE HCI RESEARCH DATABASE SCHEMA & SEED
--- Resolving Dark Patterns, Hidden Fees, and Visual Clutter
+-- FARWAYS TRAVEL PLATFORM - COMMERCIAL PRODUCTION DATABASE SCHEMA & SEED
+-- Transparent All-Inclusive Fares, Zero Drip Fees, Zero Clutter
 -- IDEMPOTENT SCHEMA: Safe to run multiple times in Supabase SQL Editor
 -- 6 Core Tables: stays, flights, trains, cabs, user_profiles, bookings
 -- ============================================================================
@@ -1060,7 +1060,7 @@ ON CONFLICT (id) DO UPDATE SET
 INSERT INTO public.user_profiles (
     id, email, full_name, phone, city, preferred_currency, high_contrast_mode, large_text_mode, marketing_opt_in, reward_points
 ) VALUES
-('usr-eval-01', 'evaluator@iit.ac.in', 'Prof. Arvind Sharma (HCI Evaluator)', '9820198201', 'Mumbai', 'INR', false, false, false, 1500),
+('usr-eval-01', 'vikram.malhotra@farways.in', 'Vikram Malhotra (Frequent Traveler)', '9820198201', 'Mumbai', 'INR', false, false, false, 1500),
 ('usr-arjun-01', 'arjun.sharma@example.com', 'Arjun Sharma', '9820123456', 'Mumbai', 'INR', false, false, false, 500),
 ('usr-priya-02', 'priya.patel@example.com', 'Priya Patel', '9876543210', 'Delhi NCR', 'INR', false, false, false, 750)
 ON CONFLICT (email) DO UPDATE SET
