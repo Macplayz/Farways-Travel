@@ -1,10 +1,10 @@
 'use client';
 
 import React, { useState, useRef, useEffect, Suspense } from 'react';
+import Image from 'next/image';
 import Link from 'next/link';
 import { usePathname, useSearchParams } from 'next/navigation';
 import { 
-  Compass, 
   Building2, 
   Plane, 
   TrainFront,
@@ -152,17 +152,16 @@ export function Navbar() {
                 className="flex items-center gap-2.5 group focus-visible:ring-2 focus-visible:ring-ocean rounded-lg p-1"
                 aria-label="Farways Home"
               >
-                <div className="w-9 h-9 rounded-xl bg-ocean text-white flex items-center justify-center shadow-sm group-hover:bg-ocean-dark transition-colors">
-                  <Compass className="w-5 h-5 transition-transform group-hover:rotate-45 duration-300" />
-                </div>
-                <div className="flex flex-col">
-                  <span className="text-xl font-extrabold tracking-tight text-ink leading-tight">
-                    Farways
-                  </span>
-                  <span className="text-[10px] font-semibold text-ocean tracking-wide uppercase">
-                    Ethical Travel Platform
-                  </span>
-                </div>
+                <span className="relative block h-11 w-36 overflow-hidden rounded-md">
+                  <Image
+                    src="/farways-logo.png"
+                    alt="Farways"
+                    width={160}
+                    height={160}
+                    priority
+                    className="h-full w-full object-cover object-center"
+                  />
+                </span>
               </Link>
 
               {/* Research Badge */}

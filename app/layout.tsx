@@ -1,4 +1,4 @@
-import type { Metadata } from "next";
+import type { Metadata, Viewport } from "next";
 import "./globals.css";
 import { Providers } from "@/components/Providers";
 
@@ -16,6 +16,26 @@ export const metadata: Metadata = {
     "honest pricing",
     "farways travel",
   ],
+  icons: {
+    icon: [
+      { url: "/fav-all/favicon-16x16.png", sizes: "16x16", type: "image/png" },
+      { url: "/fav-all/favicon-32x32.png", sizes: "32x32", type: "image/png" },
+      { url: "/fav-all/favicon.ico", sizes: "any" },
+    ],
+    apple: [
+      { url: "/fav-all/apple-icon-180x180.png", sizes: "180x180", type: "image/png" },
+    ],
+  },
+  manifest: "/fav-all/manifest.json",
+  other: {
+    "msapplication-TileColor": "#ffffff",
+    "msapplication-TileImage": "/fav-all/ms-icon-144x144.png",
+    "msapplication-config": "/fav-all/browserconfig.xml",
+  },
+};
+
+export const viewport: Viewport = {
+  themeColor: "#ffffff",
 };
 
 export default function RootLayout({
@@ -39,4 +59,3 @@ export default function RootLayout({
     </html>
   );
 }
-

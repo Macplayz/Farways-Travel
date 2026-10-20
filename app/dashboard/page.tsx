@@ -1,6 +1,7 @@
 'use client';
 
 import React, { useState, useEffect, Suspense, useMemo } from 'react';
+import Image from 'next/image';
 import { useSearchParams } from 'next/navigation';
 import Link from 'next/link';
 import { 
@@ -186,6 +187,17 @@ function DashboardMainContent() {
         
         {/* Sticky Left Sidebar Navigation (Requirement 1) */}
         <aside className="lg:col-span-3 bg-white border border-line rounded-2xl p-4 shadow-subtle sticky top-20 space-y-1">
+          <Link href="/" className="mx-2 mb-2 inline-flex rounded-md" aria-label="Farways Home">
+            <span className="relative block h-11 w-36 overflow-hidden rounded-md">
+              <Image
+                src="/farways-logo.png"
+                alt="Farways"
+                width={160}
+                height={160}
+                className="h-full w-full object-cover object-center"
+              />
+            </span>
+          </Link>
           <div className="px-3 py-2 text-[10px] font-extrabold uppercase tracking-wider text-slate-muted">
             Travel Center
           </div>
