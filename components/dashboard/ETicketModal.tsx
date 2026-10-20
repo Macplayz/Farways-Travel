@@ -164,7 +164,7 @@ export function ETicketModal({ booking, onClose }: ETicketModalProps) {
           {/* Selected Add-ons (if any) */}
           {booking.addons_json && Array.isArray(booking.addons_json) && booking.addons_json.length > 0 && (
             <div className="p-4 rounded-xl bg-sky/30 border border-line space-y-2 text-xs">
-              <span className="text-[10px] font-bold text-ink uppercase tracking-wider block">
+              <span className="text-[10px] font-bold text-gray-500 uppercase tracking-wider block">
                 Confirmed Optional Enhancements
               </span>
               <div className="space-y-1 text-slate">

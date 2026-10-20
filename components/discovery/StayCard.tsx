@@ -66,10 +66,10 @@ export function StayCard({ stay, priceMode, stayNights, onOpenDetails }: StayCar
   };
 
   return (
-    <article className="bg-white border border-line rounded-2xl overflow-hidden shadow-subtle hover:shadow-card transition-all duration-200 flex flex-col justify-between group">
-      <div>
+    <article className="bg-white border border-line rounded-2xl overflow-hidden shadow-subtle hover:shadow-card transition-all duration-200 flex flex-col h-full group">
+      <div className="flex-1 flex flex-col">
         {/* Visual Media Header with Mini Carousel */}
-        <div className="relative h-48 sm:h-52 w-full overflow-hidden bg-sky group/carousel">
+        <div className="relative h-48 sm:h-52 w-full overflow-hidden bg-sky group/carousel shrink-0">
           <SafeImage
             src={photos[currentPhotoIdx]}
             alt={`${stay.name} - Verified Photo ${currentPhotoIdx + 1}`}
@@ -144,59 +144,62 @@ export function StayCard({ stay, priceMode, stayNights, onOpenDetails }: StayCar
         </div>
 
         {/* Content Body */}
-        <div className="p-5">
-          {/* Rating, Star Category & Review Count */}
-          <div className="flex items-center justify-between gap-2 mb-2">
-            <div className="flex items-center gap-1.5">
-              <div className="flex items-center gap-1 px-2 py-0.5 rounded bg-ocean text-white text-xs font-extrabold">
-                <Star className="w-3 h-3 fill-current" />
-                <span>{stay.rating.toFixed(1)}</span>
+        <div className="p-5 flex-1 flex flex-col">
+          {/* Top Info Block */}
+          <div>
+            {/* Rating, Star Category & Review Count */}
+            <div className="flex items-center justify-between gap-2 mb-2">
+              <div className="flex items-center gap-1.5">
+                <div className="flex items-center gap-1 px-2 py-0.5 rounded bg-ocean text-white text-xs font-extrabold">
+                  <Star className="w-3 h-3 fill-current" />
+                  <span>{stay.rating.toFixed(1)}</span>
+                </div>
+                <span className="text-xs font-bold text-ink">
+                  {stay.starCategory}-Star {stay.propertyType}
+                </span>
               </div>
-              <span className="text-xs font-bold text-ink">
-                {stay.starCategory}-Star {stay.propertyType}
+              <span className="text-xs text-slate">
+                {stay.reviewCount.toLocaleString('en-IN')} verified reviews
               </span>
             </div>
-            <span className="text-xs text-slate">
-              {stay.reviewCount.toLocaleString('en-IN')} verified reviews
-            </span>
-          </div>
 
-          {/* Hotel Name & Tagline */}
-          <h3 className="text-lg font-bold text-ink leading-snug group-hover:text-ocean transition-colors">
-            {stay.name}
-          </h3>
-          <p className="text-xs text-slate mt-0.5 line-clamp-1">
-            {stay.tagline}
-          </p>
+            {/* Hotel Name & Tagline */}
+            <h3 className="text-lg font-bold text-ink leading-snug group-hover:text-ocean transition-colors">
+              {stay.name}
+            </h3>
+            <p className="text-xs text-slate mt-0.5 line-clamp-1">
+              {stay.tagline}
+            </p>
 
-          {/* Location Landmark */}
-          <div className="flex items-center gap-1.5 text-xs text-slate mt-2">
-            <MapPin className="w-3.5 h-3.5 text-ocean shrink-0" />
-            <span className="truncate">{stay.location}</span>
-          </div>
-
-          {/* Room Type & Capacity */}
-          <div className="flex flex-wrap items-center gap-3 text-xs text-slate-muted mt-3 pt-3 border-t border-line">
-            <div className="flex items-center gap-1">
-              <Bed className="w-3.5 h-3.5 text-slate" />
-              <span>{stay.bedType}</span>
+            {/* Location Landmark */}
+            <div className="flex items-center gap-1.5 text-xs text-slate mt-2">
+              <MapPin className="w-3.5 h-3.5 text-ocean shrink-0" />
+              <span className="truncate">{stay.location}</span>
             </div>
-            <div className="flex items-center gap-1">
-              <Users className="w-3.5 h-3.5 text-slate" />
-              <span>Up to {stay.maxGuests} Guests</span>
+
+            {/* Room Type & Capacity */}
+            <div className="flex flex-wrap items-center gap-3 text-xs text-slate-muted mt-3 pt-3 border-t border-line">
+              <div className="flex items-center gap-1">
+                <Bed className="w-3.5 h-3.5 text-slate" />
+                <span>{stay.bedType}</span>
+              </div>
+              <div className="flex items-center gap-1">
+                <Users className="w-3.5 h-3.5 text-slate" />
+                <span>Up to {stay.maxGuests} Guests</span>
+              </div>
             </div>
           </div>
 
-          {/* Cancellation Policy Plain-English Tag */}
-          <div className="mt-3">
-            <div className="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-md text-xs font-medium bg-green-50 text-green border border-green-200">
-              <CheckCircle2 className="w-3.5 h-3.5 shrink-0" />
+          {/* Cancellation Policy Plain-English Tag - Anchored with mt-auto */}
+          <div className="mt-auto pt-3">
+            <div className="flex items-center gap-1.5 px-2.5 py-1.5 rounded-lg text-xs font-medium bg-emerald-50 text-emerald-800 border border-emerald-200 w-full">
+              <CheckCircle2 className="w-3.5 h-3.5 shrink-0 text-emerald-600" />
               <span className="truncate">{stay.cancellationPolicy.description}</span>
             </div>
           </div>
 
           {/* Upfront Itemized Price Breakdown (Radical Transparency - Requirement 4) */}
-          <div className="mt-4 p-3.5 rounded-xl bg-sky/70 border border-sky-deep">
+          <div className="mt-3 p-3.5 rounded-xl bg-sky/70 border border-sky-deep">
             <div className="flex items-center justify-between text-[11px] font-bold text-ocean uppercase tracking-wider mb-2">
               <span>Upfront Itemized Breakdown</span>
               <span className="font-normal text-slate lowercase">

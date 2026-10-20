@@ -1,19 +1,14 @@
 import React, { Suspense } from 'react';
+import Image from 'next/image';
 import { 
   ShieldCheck, 
-  Eye, 
-  Clock, 
   CheckCircle2, 
-  Sparkles, 
   Compass, 
-  Lock, 
-  Database,
-  Layers,
-  ArrowRight
+  Sparkles,
+  Award
 } from 'lucide-react';
 import { farwaysDataService } from '@/lib/supabase/client';
 import { DiscoveryEngine } from '@/components/discovery/DiscoveryEngine';
-import { DatabaseStatusPill } from '@/components/DatabaseStatusModal';
 
 export const revalidate = 60; // 60s ISR or dynamic data
 
@@ -25,75 +20,96 @@ export default async function HomePage() {
   const isConnected = farwaysDataService.isConfigured();
 
   return (
-    <main className="min-h-screen bg-sky pb-28 md:pb-20">
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 pt-8 space-y-8">
+    <main className="min-h-screen bg-sky/50 pb-28 md:pb-20">
+      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 pt-6 sm:pt-8 space-y-8">
         
         {/* =========================================================================
-            1. OCEAN-GRADIENT HERO BANNER & TOTAL-FARE PROMISE BOX
-            Zero promotional pop-ups, zero carousels, zero fake countdown timers
+            1. PREMIUM COMMERCIAL HERO SECTION WITH HIGH-RES PHOTOGRAPHY & DARK OVERLAY
+            Elevates platform to top-tier commercial OTA standard with radical honesty
             ========================================================================= */}
-        <section className="relative rounded-3xl bg-gradient-to-br from-ink via-ocean-dark to-ocean text-white p-8 sm:p-12 shadow-card overflow-hidden">
-          {/* Subtle Ambient Decorative Circles (Non-distracting) */}
-          <div className="absolute -right-20 -top-20 w-80 h-80 rounded-full bg-white/5 blur-2xl pointer-events-none"></div>
-          <div className="absolute right-1/3 -bottom-24 w-96 h-96 rounded-full bg-ocean-light/10 blur-3xl pointer-events-none"></div>
+        <section className="relative rounded-3xl overflow-hidden shadow-2xl text-white min-h-[440px] sm:min-h-[500px] flex flex-col justify-end p-6 sm:p-10 lg:p-14 border border-white/10 group">
+          {/* High-Resolution Premium Travel Background Image via next/image */}
+          <Image
+            src="https://images.unsplash.com/photo-1542314831-068cd1dbfeeb?auto=format&fit=crop&w=2400&q=85"
+            alt="Farways Luxury Oceanfront Destination"
+            fill
+            priority
+            sizes="(max-width: 1280px) 100vw, 1280px"
+            className="object-cover object-center transform scale-100 group-hover:scale-105 transition-transform duration-1000 ease-out"
+          />
 
-          <div className="relative z-10 max-w-3xl">
-            {/* Top Transparent Pricing Badge */}
-            <div className="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full text-xs font-bold bg-white/10 backdrop-blur-md border border-white/20 text-white mb-5 shadow-sm">
-              <ShieldCheck className="w-4 h-4 text-green-300" />
-              <span>Guaranteed Transparent Pricing · Zero Hidden Fees</span>
+          {/* Dark Commercial Vignette & Contrast Overlay (bg-black/50 + gradient) */}
+          <div className="absolute inset-0 bg-gradient-to-t from-black/90 via-black/60 to-black/40 backdrop-blur-[0.5px]" />
+
+          {/* Foreground Hero Content Layer */}
+          <div className="relative z-10 max-w-3xl space-y-5">
+            {/* Trust Pill & Commercial Standard Badge */}
+            <div className="flex flex-wrap items-center gap-2.5">
+              <span className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full text-xs font-bold bg-white/20 text-white backdrop-blur-md border border-white/25 shadow-sm">
+                <ShieldCheck className="w-4 h-4 text-emerald-400" />
+                <span>Guaranteed Upfront Pricing · Zero Hidden Drip Fees</span>
+              </span>
+
+              <span className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full text-xs font-semibold bg-ocean/70 text-white backdrop-blur-md border border-white/20 shadow-sm hidden sm:inline-flex">
+                <Award className="w-3.5 h-3.5 text-sky-200" />
+                <span>Next-Gen Ethical OTA</span>
+              </span>
             </div>
 
-            <h1 className="text-3xl sm:text-5xl font-extrabold tracking-tight leading-[1.15] mb-4">
-              Honest, Calm Travel Booking. <br />
-              <span className="text-sky-deep font-normal">Without the Dark Patterns.</span>
-            </h1>
+            {/* Headline with Luxury Commercial Typography */}
+            <div className="space-y-2">
+              <h1 className="text-3xl sm:text-5xl lg:text-6xl font-black tracking-tight leading-[1.1] text-white drop-shadow-md">
+                Radical Transparency. <br />
+                <span className="text-sky-300 font-extrabold">Exceptional Journeys.</span>
+              </h1>
 
-            <p className="text-sm sm:text-base text-sky/90 leading-relaxed mb-8">
-              Farways is India&apos;s next-generation transparent travel booking platform. 
-              We eliminated deceptive drip pricing, manufactured scarcity countdowns, pre-checked add-on traps, 
-              and cognitive clutter in favor of radical honesty and true all-inclusive pricing.
-            </p>
+              <p className="text-sm sm:text-base text-gray-200 max-w-2xl leading-relaxed drop-shadow-sm pt-1">
+                India’s premier travel platform designed for absolute clarity. Explore verified luxury stays, 
+                non-stop flight corridors, express rail, and pre-fixed cabs with guaranteed all-inclusive fares. 
+                Zero hidden service markups, zero pre-selected basket traps.
+              </p>
+            </div>
 
-            {/* Farways Total-Fare Promise Box */}
-            <div className="bg-white/10 backdrop-blur-md border border-white/20 rounded-2xl p-5 sm:p-6 shadow-subtle text-xs space-y-3.5">
+            {/* Glassmorphic Total-Fare Promise Banner */}
+            <div className="bg-black/40 backdrop-blur-md border border-white/20 rounded-2xl p-4 sm:p-5 shadow-xl text-xs space-y-3">
               <div className="flex items-center justify-between pb-2 border-b border-white/15">
-                <span className="font-extrabold uppercase tracking-wider text-sky-deep text-[11px] flex items-center gap-1.5">
-                  <Compass className="w-4 h-4 text-sky-deep" />
+                <span className="font-extrabold uppercase tracking-wider text-sky-300 text-[11px] flex items-center gap-1.5">
+                  <Compass className="w-4 h-4 text-sky-300" />
                   <span>The Farways Total-Fare Promise</span>
                 </span>
-                <span className="text-[10px] px-2 py-0.5 rounded bg-green-500/30 text-green-200 border border-green-400/30 font-bold">
-                  100% Guaranteed
+                <span className="text-[10px] px-2.5 py-0.5 rounded-full bg-emerald-500/30 text-emerald-200 border border-emerald-400/40 font-bold flex items-center gap-1">
+                  <CheckCircle2 className="w-3 h-3" />
+                  <span>100% Price Lock Guarantee</span>
                 </span>
               </div>
 
-              <div className="grid grid-cols-1 sm:grid-cols-3 gap-3">
-                <div className="flex items-start gap-2">
-                  <CheckCircle2 className="w-4 h-4 text-green-300 shrink-0 mt-0.5" />
+              <div className="grid grid-cols-1 sm:grid-cols-3 gap-3 pt-1">
+                <div className="flex items-start gap-2.5">
+                  <CheckCircle2 className="w-4 h-4 text-emerald-400 shrink-0 mt-0.5" />
                   <div>
-                    <span className="font-bold text-white block">Radical Upfront Breakdown</span>
-                    <span className="text-white/80 text-[11px]">
-                      Base rate, GST, and platform fees are itemized on every search card before you click.
+                    <span className="font-bold text-white block text-xs">Total Upfront Breakdown</span>
+                    <span className="text-gray-300 text-[11px] leading-snug block mt-0.5">
+                      Base rate, GST, and tolls are itemized on the very first card before you click.
                     </span>
                   </div>
                 </div>
 
-                <div className="flex items-start gap-2">
-                  <CheckCircle2 className="w-4 h-4 text-green-300 shrink-0 mt-0.5" />
+                <div className="flex items-start gap-2.5">
+                  <CheckCircle2 className="w-4 h-4 text-emerald-400 shrink-0 mt-0.5" />
                   <div>
-                    <span className="font-bold text-white block">Strictly Opt-In Addons</span>
-                    <span className="text-white/80 text-[11px]">
-                      Baggage, meals, and trip insurance are 100% unselected by default. Zero sneaking.
+                    <span className="font-bold text-white block text-xs">Zero Sneaked Addons</span>
+                    <span className="text-gray-300 text-[11px] leading-snug block mt-0.5">
+                      Insurance, meals, and baggage are strictly unselected by default. Complete control.
                     </span>
                   </div>
                 </div>
 
-                <div className="flex items-start gap-2">
-                  <CheckCircle2 className="w-4 h-4 text-green-300 shrink-0 mt-0.5" />
+                <div className="flex items-start gap-2.5">
+                  <CheckCircle2 className="w-4 h-4 text-emerald-400 shrink-0 mt-0.5" />
                   <div>
-                    <span className="font-bold text-white block">Zero Urgency Deception</span>
-                    <span className="text-white/80 text-[11px]">
-                      Zero artificial timers, zero fake &quot;Only 1 room left!&quot; anxiety drivers, zero confirmshaming.
+                    <span className="font-bold text-white block text-xs">Zero False Urgency</span>
+                    <span className="text-gray-300 text-[11px] leading-snug block mt-0.5">
+                      No countdown timers, no fabricated scarcity warnings, no confirmshaming popups.
                     </span>
                   </div>
                 </div>
@@ -132,11 +148,11 @@ export default async function HomePage() {
                 Consumer-First Guarantee
               </span>
             </div>
-            <div className="flex items-center gap-3">
-              <span className="text-[11px] text-slate-muted hidden sm:inline">
-                Live Data Engine: {isConnected ? 'Enterprise Cloud Verified' : 'Standard Engine'}
+            <div className="flex items-center gap-2">
+              <span className="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-full text-xs font-semibold bg-emerald-50 text-emerald-800 border border-emerald-200">
+                <ShieldCheck className="w-3.5 h-3.5 text-emerald-600" />
+                <span>Zero Price Manipulation</span>
               </span>
-              <DatabaseStatusPill />
             </div>
           </div>
 

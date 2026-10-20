@@ -155,7 +155,7 @@ export function OrderSummaryCard({
         {/* Selected Add-ons itemized individually */}
         {selectedAddons.length > 0 && (
           <div className="pt-2 border-t border-line/60 space-y-1.5">
-            <span className="text-[11px] font-bold text-ink uppercase tracking-wider block">
+            <span className="text-[11px] font-bold text-gray-500 uppercase tracking-wider block">
               Optional Add-ons
             </span>
             {selectedAddons.map((addon) => (

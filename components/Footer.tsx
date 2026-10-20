@@ -18,9 +18,7 @@ import {
   Database, 
   CheckCircle2, 
   ArrowRight,
-  ExternalLink
 } from 'lucide-react';
-import { DatabaseStatusPill } from '@/components/DatabaseStatusModal';
 
 export function Footer() {
   return (
@@ -45,17 +43,19 @@ export function Footer() {
               </p>
             </div>
 
-            {/* Live DB / Service Indicator */}
-            <div className="bg-white/10 backdrop-blur-md border border-white/20 rounded-2xl p-4 shrink-0 flex flex-col sm:flex-row sm:items-center gap-3">
+            {/* Commercial Trust Verification */}
+            <div className="bg-white/10 backdrop-blur-md border border-white/20 rounded-2xl p-4 shrink-0 flex items-center gap-3">
+              <div className="w-10 h-10 rounded-xl bg-emerald-500/20 text-emerald-300 flex items-center justify-center shrink-0 border border-emerald-400/30">
+                <ShieldCheck className="w-5 h-5 text-emerald-300" />
+              </div>
               <div>
-                <span className="text-[10px] font-extrabold uppercase text-sky-deep tracking-wider block">
-                  Service Status
+                <span className="text-[10px] font-extrabold uppercase text-emerald-300 tracking-wider block">
+                  Verified Booking Platform
                 </span>
                 <span className="text-xs font-bold text-white block">
-                  Live Inventory & Price Verification
+                  100% Guaranteed All-Inclusive Pricing
                 </span>
               </div>
-              <DatabaseStatusPill />
             </div>
           </div>
 

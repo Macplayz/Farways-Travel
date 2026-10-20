@@ -269,34 +269,29 @@ export function AiSupportWidget() {
   return (
     <>
       {/* Floating Toggle Button */}
-      <aside aria-label="AI Travel Concierge Floating Launcher" className="fixed bottom-6 right-6 z-40">
+      <aside aria-label="AI Travel Concierge Floating Launcher" className="fixed bottom-4 right-4 z-40">
         <button
           type="button"
           onClick={() => setIsOpen(!isOpen)}
-          className={`flex items-center gap-2.5 px-4 py-3 rounded-full font-bold text-xs shadow-modal transition-all duration-300 cursor-pointer ${
+          className={`h-10 px-3.5 rounded-full font-bold text-xs shadow-modal transition-all duration-200 cursor-pointer flex items-center gap-2 ${
             isOpen
               ? 'bg-ink text-white hover:bg-slate-800'
-              : 'bg-ocean hover:bg-ocean-dark text-white ring-4 ring-ocean/20 hover:scale-105'
+              : 'bg-ocean hover:bg-ocean-dark text-white shadow-md hover:scale-105 ring-2 ring-ocean/20'
           }`}
           aria-expanded={isOpen}
           aria-label="Open Farways AI Travel Concierge"
         >
           {isOpen ? (
-            <X className="w-4 h-4 text-white" />
+            <X className="w-3.5 h-3.5 text-white" />
           ) : (
             <div className="relative">
-              <Bot className="w-4 h-4 text-white" />
-              <span className="absolute -top-1 -right-1 w-2 h-2 rounded-full bg-green animate-ping" />
+              <Bot className="w-3.5 h-3.5 text-white" />
+              <span className="absolute -top-0.5 -right-0.5 w-1.5 h-1.5 rounded-full bg-green animate-ping" />
             </div>
           )}
           <span className="font-extrabold tracking-tight">
-            {isOpen ? 'Close Concierge' : 'AI Travel Concierge'}
+            {isOpen ? 'Close' : 'AI Concierge'}
           </span>
-          {!isOpen && (
-            <span className="hidden sm:inline-block px-1.5 py-0.5 rounded text-[10px] bg-white/20 text-white font-mono">
-              Live
-            </span>
-          )}
         </button>
       </aside>
 
@@ -304,23 +299,23 @@ export function AiSupportWidget() {
       {isOpen && (
         <aside 
           aria-label="Farways AI Travel Concierge"
-          className="fixed bottom-20 right-4 sm:right-6 z-50 w-[92vw] sm:w-[420px] bg-white rounded-3xl border border-line shadow-modal flex flex-col overflow-hidden animate-scale-in max-h-[82vh]"
+          className="fixed bottom-4 right-4 z-50 w-[calc(100vw-32px)] sm:w-80 max-w-[320px] bg-white rounded-2xl border border-line shadow-modal flex flex-col overflow-hidden animate-scale-in max-h-[75vh]"
         >
           {/* Header */}
-          <div className="bg-gradient-to-r from-ink via-ocean-dark to-ocean text-white p-4 shrink-0 flex items-center justify-between">
-            <div className="flex items-center gap-3">
-              <div className="w-9 h-9 rounded-xl bg-white/10 backdrop-blur-md border border-white/20 flex items-center justify-center">
-                <Bot className="w-5 h-5 text-sky-deep" />
+          <div className="bg-gradient-to-r from-ink via-ocean-dark to-ocean text-white p-3 shrink-0 flex items-center justify-between">
+            <div className="flex items-center gap-2.5">
+              <div className="w-7 h-7 rounded-lg bg-white/10 backdrop-blur-md border border-white/20 flex items-center justify-center">
+                <Bot className="w-4 h-4 text-sky-deep" />
               </div>
               <div>
-                <div className="flex items-center gap-2">
-                  <h3 className="text-sm font-extrabold tracking-tight">
+                <div className="flex items-center gap-1.5">
+                  <h3 className="text-xs font-extrabold tracking-tight">
                     Farways AI Concierge
                   </h3>
-                  <span className="w-2 h-2 rounded-full bg-green animate-pulse" />
+                  <span className="w-1.5 h-1.5 rounded-full bg-green animate-pulse" />
                 </div>
-                <p className="text-[10px] text-sky/80">
-                  Zero Hidden Fees · Real-time Catalog Access
+                <p className="text-[9px] text-sky/80">
+                  Zero Hidden Fees · Real-time Catalog
                 </p>
               </div>
             </div>
@@ -329,31 +324,31 @@ export function AiSupportWidget() {
               <button
                 type="button"
                 onClick={handleResetChat}
-                className="p-1.5 rounded-lg hover:bg-white/10 text-sky hover:text-white transition-colors cursor-pointer"
+                className="p-1 rounded-md hover:bg-white/10 text-sky hover:text-white transition-colors cursor-pointer"
                 title="Reset Conversation"
               >
-                <RotateCcw className="w-3.5 h-3.5" />
+                <RotateCcw className="w-3 h-3" />
               </button>
               <button
                 type="button"
                 onClick={() => setIsOpen(false)}
-                className="p-1.5 rounded-lg hover:bg-white/10 text-sky hover:text-white transition-colors cursor-pointer"
+                className="p-1 rounded-md hover:bg-white/10 text-sky hover:text-white transition-colors cursor-pointer"
                 title="Close Window"
               >
-                <X className="w-4 h-4" />
+                <X className="w-3.5 h-3.5" />
               </button>
             </div>
           </div>
 
           {/* Quick Prompts Bar */}
-          <div className="bg-sky/60 border-b border-line px-3 py-2 shrink-0 flex items-center gap-1.5 overflow-x-auto no-scrollbar">
-            <Sparkles className="w-3.5 h-3.5 text-ocean shrink-0" />
+          <div className="bg-sky/60 border-b border-line px-2.5 py-1.5 shrink-0 flex items-center gap-1.5 overflow-x-auto hide-scrollbar">
+            <Sparkles className="w-3 h-3 text-ocean shrink-0" />
             {QUICK_PROMPTS.map((prompt, idx) => (
               <button
                 key={idx}
                 type="button"
                 onClick={() => handleSend(prompt)}
-                className="px-2.5 py-1 rounded-full bg-white border border-line hover:border-ocean text-[11px] font-semibold text-slate hover:text-ink whitespace-nowrap transition-all cursor-pointer shadow-2xs"
+                className="px-2 py-0.5 rounded-full bg-white border border-line hover:border-ocean text-[10px] font-semibold text-slate hover:text-ink whitespace-nowrap transition-all cursor-pointer shadow-2xs"
               >
                 {prompt}
               </button>
@@ -361,7 +356,7 @@ export function AiSupportWidget() {
           </div>
 
           {/* Message Stream */}
-          <div className="flex-1 p-4 overflow-y-auto space-y-3.5 bg-slate-50/50">
+          <div className="flex-1 p-3 overflow-y-auto space-y-2.5 bg-slate-50/50">
             {messages.map((msg) => (
               <div
                 key={msg.id}
@@ -370,7 +365,7 @@ export function AiSupportWidget() {
                 }`}
               >
                 <div
-                  className={`max-w-[88%] rounded-2xl p-3 text-xs leading-relaxed ${
+                  className={`max-w-[90%] rounded-xl p-2.5 text-xs leading-relaxed ${
                     msg.sender === 'user'
                       ? 'bg-ocean text-white rounded-br-xs shadow-xs'
                       : 'bg-white text-ink border border-line rounded-bl-xs shadow-subtle'
@@ -380,15 +375,15 @@ export function AiSupportWidget() {
 
                   {/* Recommendation Cards */}
                   {msg.recommendations && msg.recommendations.length > 0 && (
-                    <div className="mt-3 space-y-2 pt-2 border-t border-line/60">
+                    <div className="mt-2 space-y-1.5 pt-1.5 border-t border-line/60">
                       {msg.recommendations.map((rec) => (
                         <Link
                           key={rec.id}
                           href={rec.href}
                           onClick={() => setIsOpen(false)}
-                          className="flex items-center gap-2.5 p-2 rounded-xl border border-line hover:border-ocean bg-sky/30 hover:bg-white transition-all group block"
+                          className="flex items-center gap-2 p-1.5 rounded-lg border border-line hover:border-ocean bg-sky/30 hover:bg-white transition-all group block"
                         >
-                          <div className="w-12 h-12 rounded-lg overflow-hidden shrink-0 bg-slate-100">
+                          <div className="w-10 h-10 rounded-md overflow-hidden shrink-0 bg-slate-100">
                             <SafeImage
                               src={rec.image || 'https://images.unsplash.com/photo-1488646953014-85cb44e25828?auto=format&fit=crop&w=600&q=80'}
                               alt={rec.title}
@@ -397,47 +392,47 @@ export function AiSupportWidget() {
                           </div>
                           <div className="flex-1 min-w-0">
                             <div className="flex items-center justify-between gap-1">
-                              <span className="text-xs font-bold text-ink truncate group-hover:text-ocean">
+                              <span className="text-[11px] font-bold text-ink truncate group-hover:text-ocean">
                                 {rec.title}
                               </span>
                               {rec.badge && (
-                                <span className="text-[9px] font-extrabold px-1.5 py-0.2 rounded bg-sky-deep text-ocean shrink-0">
+                                <span className="text-[8px] font-extrabold px-1 py-0.2 rounded bg-sky-deep text-ocean shrink-0">
                                   {rec.badge}
                                 </span>
                               )}
                             </div>
-                            <div className="text-[10px] text-slate truncate">
+                            <div className="text-[9px] text-slate truncate">
                               {rec.subtitle}
                             </div>
                             {rec.price > 0 && (
-                              <div className="text-xs font-black text-ink mt-0.5">
+                              <div className="text-[11px] font-black text-ink mt-0.5">
                                 ₹{rec.price.toLocaleString('en-IN')}{' '}
-                                <span className="text-[9px] font-normal text-slate">
-                                  (100% Tax-Included)
+                                <span className="text-[8px] font-normal text-slate">
+                                  (Net Total)
                                 </span>
                               </div>
                             )}
                           </div>
-                          <ChevronRight className="w-4 h-4 text-slate group-hover:text-ocean shrink-0 group-hover:translate-x-0.5 transition-transform" />
+                          <ChevronRight className="w-3.5 h-3.5 text-slate group-hover:text-ocean shrink-0 group-hover:translate-x-0.5 transition-transform" />
                         </Link>
                       ))}
                     </div>
                   )}
                 </div>
 
-                <span className="text-[10px] text-slate-muted mt-1 px-1">
+                <span className="text-[9px] text-slate-muted mt-0.5 px-1">
                   {msg.timestamp}
                 </span>
               </div>
             ))}
 
             {isTyping && (
-              <div className="flex items-center gap-1.5 text-slate bg-white border border-line rounded-2xl px-3 py-2 text-xs w-fit animate-calm">
+              <div className="flex items-center gap-1.5 text-slate bg-white border border-line rounded-xl px-2.5 py-1.5 text-xs w-fit animate-calm">
                 <span className="w-1.5 h-1.5 rounded-full bg-ocean animate-bounce" />
                 <span className="w-1.5 h-1.5 rounded-full bg-ocean animate-bounce [animation-delay:0.15s]" />
                 <span className="w-1.5 h-1.5 rounded-full bg-ocean animate-bounce [animation-delay:0.3s]" />
-                <span className="text-[11px] font-medium text-slate pl-1">
-                  Farways AI is analyzing transparent inventory...
+                <span className="text-[10px] font-medium text-slate pl-1">
+                  Searching transparent inventory...
                 </span>
               </div>
             )}
@@ -446,36 +441,36 @@ export function AiSupportWidget() {
           </div>
 
           {/* Input Footer */}
-          <div className="p-3 bg-white border-t border-line shrink-0">
+          <div className="p-2.5 bg-white border-t border-line shrink-0">
             <form
               onSubmit={(e) => {
                 e.preventDefault();
                 handleSend();
               }}
-              className="flex items-center gap-2"
+              className="flex items-center gap-1.5"
             >
               <input
                 type="text"
                 value={inputVal}
                 onChange={(e) => setInputVal(e.target.value)}
-                placeholder="Ask about hotels, trains, flight prices, or fees..."
-                className="flex-1 px-3.5 py-2 rounded-xl border border-line bg-sky/30 text-xs text-ink placeholder:text-slate-muted focus:border-ocean focus:outline-none focus:bg-white transition-colors"
+                placeholder="Ask about hotels, trains, flight prices..."
+                className="flex-1 px-3 py-1.5 rounded-lg border border-line bg-sky/30 text-xs text-ink placeholder:text-slate-muted focus:border-ocean focus:outline-none focus:bg-white transition-colors"
               />
               <button
                 type="submit"
                 disabled={!inputVal.trim()}
-                className="btn-primary p-2 rounded-xl text-xs disabled:opacity-40 disabled:cursor-not-allowed cursor-pointer"
+                className="btn-primary p-1.5 rounded-lg text-xs disabled:opacity-40 disabled:cursor-not-allowed cursor-pointer"
                 title="Send Message"
               >
-                <Send className="w-4 h-4" />
+                <Send className="w-3.5 h-3.5" />
               </button>
             </form>
-            <div className="flex items-center justify-between text-[10px] text-slate-muted pt-2 px-1">
+            <div className="flex items-center justify-between text-[9px] text-slate-muted pt-1.5 px-0.5">
               <span className="flex items-center gap-1">
                 <ShieldCheck className="w-3 h-3 text-green" />
-                <span>Anti-Drip Guard Active</span>
+                <span>Anti-Drip Guard</span>
               </span>
-              <span>Verified Fares · 24/7 Support</span>
+              <span>Verified Fares · 24/7</span>
             </div>
           </div>
         </aside>

@@ -273,12 +273,30 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
     if (isSupabaseConfigured()) {
       try {
         const origin = typeof window !== 'undefined' ? window.location.origin : '';
+        // Valid redirect URL for email verification
         const emailRedirectTo = origin ? `${origin}/dashboard` : undefined;
 
-        const authOptions = {
-          emailRedirectTo,
-          data: { full_name: cleanName, marketing_opt_in: marketingOptIn, city: resolvedCity },
+        const authOptions: {
+          emailRedirectTo?: string;
+          data: {
+            full_name: string;
+            marketing_opt_in: boolean;
+            city?: string;
+            phone?: string;
+          };
+        } = {
+          data: {
+            full_name: cleanName,
+            marketing_opt_in: marketingOptIn,
+            city: resolvedCity,
+            phone: resolvedPhone,
+          },
         };
+
+        // Only attach emailRedirectTo for email signups (phone auth does not use email redirects)
+        if (!isIndianPhone && emailRedirectTo) {
+          authOptions.emailRedirectTo = emailRedirectTo;
+        }
 
         const { data, error } = isIndianPhone
           ? await supabase.auth.signUp({
@@ -293,12 +311,15 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
             });
 
         if (error) {
-          // If Supabase auth errors on phone auth or endpoint restriction, fail gracefully
+          // If Supabase phone provider is not set up or rate-limited, provide clear message
           console.warn('[Supabase Auth] SignUp issue:', error.message);
-          return { success: false, error: error.message };
-        }
-
-        if (data.user) {
+          // If it's a phone signup without SMS gateway, fall back gracefully to local session
+          if (isIndianPhone && (error.message.includes('provider') || error.message.includes('SMS') || error.message.includes('not allowed') || error.message.includes('unsupported'))) {
+            // Proceed to local demo fallback below
+          } else {
+            return { success: false, error: error.message };
+          }
+        } else if (data?.user) {
           const profile: UserProfile = {
             id: data.user.id,
             email: data.user.email || (cleanId.includes('@') ? cleanId : `${cleanId}@mobile.farways.in`),

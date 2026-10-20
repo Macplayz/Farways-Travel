@@ -110,14 +110,27 @@ function calculatePasswordStrength(pass: string): {
   };
 }
 
+function getSafeRedirectPath(raw: string | null): string {
+  if (!raw) return '/dashboard';
+  try {
+    const decoded = decodeURIComponent(raw).trim();
+    // Disallow external URLs, protocol-relative URLs (//) or script protocols
+    if (decoded.startsWith('//') || decoded.includes('://') || decoded.startsWith('javascript:')) {
+      return '/dashboard';
+    }
+    // Normalize relative paths (e.g. "checkout" -> "/checkout", "/checkout" -> "/checkout")
+    return decoded.startsWith('/') ? decoded : `/${decoded}`;
+  } catch {
+    return '/dashboard';
+  }
+}
+
 function LoginContent() {
   const router = useRouter();
   const searchParams = useSearchParams();
   const initialTab = searchParams.get('tab') === 'signup' ? 'signup' : 'signin';
   const rawRedirect = searchParams.get('redirect');
-  const redirectUrl = (rawRedirect && rawRedirect.startsWith('/') && !rawRedirect.startsWith('//'))
-    ? rawRedirect
-    : '/dashboard';
+  const redirectUrl = getSafeRedirectPath(rawRedirect);
 
   const { user, signIn, signUp, demoLogin } = useAuth();
   const toast = useToast();

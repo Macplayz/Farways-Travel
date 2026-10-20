@@ -233,20 +233,36 @@ ALTER TABLE public.cabs ENABLE ROW LEVEL SECURITY;
 ALTER TABLE public.bookings ENABLE ROW LEVEL SECURITY;
 ALTER TABLE public.user_profiles ENABLE ROW LEVEL SECURITY;
 
--- 1. Public Read on Catalog Tables
+-- 1. Public Read, Insert & Update on Catalog Tables (Allows seamless catalog sync and remote seeding)
 DROP POLICY IF EXISTS "Allow public read on stays" ON public.stays;
 CREATE POLICY "Allow public read on stays" ON public.stays FOR SELECT USING (true);
+DROP POLICY IF EXISTS "Allow anon and auth insert stays" ON public.stays;
+CREATE POLICY "Allow anon and auth insert stays" ON public.stays FOR INSERT WITH CHECK (true);
+DROP POLICY IF EXISTS "Allow anon and auth update stays" ON public.stays;
+CREATE POLICY "Allow anon and auth update stays" ON public.stays FOR UPDATE USING (true);
 
 DROP POLICY IF EXISTS "Allow public read on flights" ON public.flights;
 CREATE POLICY "Allow public read on flights" ON public.flights FOR SELECT USING (true);
+DROP POLICY IF EXISTS "Allow anon and auth insert flights" ON public.flights;
+CREATE POLICY "Allow anon and auth insert flights" ON public.flights FOR INSERT WITH CHECK (true);
+DROP POLICY IF EXISTS "Allow anon and auth update flights" ON public.flights;
+CREATE POLICY "Allow anon and auth update flights" ON public.flights FOR UPDATE USING (true);
 
 DROP POLICY IF EXISTS "Allow public read on trains" ON public.trains;
 CREATE POLICY "Allow public read on trains" ON public.trains FOR SELECT USING (true);
+DROP POLICY IF EXISTS "Allow anon and auth insert trains" ON public.trains;
+CREATE POLICY "Allow anon and auth insert trains" ON public.trains FOR INSERT WITH CHECK (true);
+DROP POLICY IF EXISTS "Allow anon and auth update trains" ON public.trains;
+CREATE POLICY "Allow anon and auth update trains" ON public.trains FOR UPDATE USING (true);
 
 DROP POLICY IF EXISTS "Allow public read on cabs" ON public.cabs;
 CREATE POLICY "Allow public read on cabs" ON public.cabs FOR SELECT USING (true);
+DROP POLICY IF EXISTS "Allow anon and auth insert cabs" ON public.cabs;
+CREATE POLICY "Allow anon and auth insert cabs" ON public.cabs FOR INSERT WITH CHECK (true);
+DROP POLICY IF EXISTS "Allow anon and auth update cabs" ON public.cabs;
+CREATE POLICY "Allow anon and auth update cabs" ON public.cabs FOR UPDATE USING (true);
 
--- 2. Authenticated and Anonymous Access for Bookings
+-- 2. Authenticated and Anonymous Access for Bookings (Full CRUD for travelers)
 DROP POLICY IF EXISTS "Allow anon and auth insert bookings" ON public.bookings;
 CREATE POLICY "Allow anon and auth insert bookings" ON public.bookings FOR INSERT WITH CHECK (true);
 
@@ -256,7 +272,10 @@ CREATE POLICY "Allow anon and auth select bookings" ON public.bookings FOR SELEC
 DROP POLICY IF EXISTS "Allow anon and auth update bookings" ON public.bookings;
 CREATE POLICY "Allow anon and auth update bookings" ON public.bookings FOR UPDATE USING (true);
 
--- 3. User Profiles Persistence Policies (Public/Auth Read, Insert, Update)
+DROP POLICY IF EXISTS "Allow anon and auth delete bookings" ON public.bookings;
+CREATE POLICY "Allow anon and auth delete bookings" ON public.bookings FOR DELETE USING (true);
+
+-- 3. User Profiles Persistence Policies (Public/Auth Read, Insert, Update, Upsert)
 DROP POLICY IF EXISTS "Allow public read on user_profiles" ON public.user_profiles;
 CREATE POLICY "Allow public read on user_profiles" ON public.user_profiles FOR SELECT USING (true);
 
@@ -265,6 +284,9 @@ CREATE POLICY "Allow public insert on user_profiles" ON public.user_profiles FOR
 
 DROP POLICY IF EXISTS "Allow public update on user_profiles" ON public.user_profiles;
 CREATE POLICY "Allow public update on user_profiles" ON public.user_profiles FOR UPDATE USING (true);
+
+DROP POLICY IF EXISTS "Allow anon and auth upsert on user_profiles" ON public.user_profiles;
+CREATE POLICY "Allow anon and auth upsert on user_profiles" ON public.user_profiles FOR ALL USING (true) WITH CHECK (true);
 
 -- ============================================================================
 -- SEED DATA: 24 STAYS (8 Mumbai, 8 Delhi NCR, 8 Goa)

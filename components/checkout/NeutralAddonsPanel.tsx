@@ -124,8 +124,8 @@ export function NeutralAddonsPanel({
                 </div>
 
                 {/* Explicit Microcopy (User Requirement 3) */}
-                <div className="mt-1 text-[10px] font-medium text-slate-muted flex items-center gap-1">
-                  <span className="w-1.5 h-1.5 rounded-full bg-slate-muted"></span>
+                <div className="mt-2 text-xs font-medium text-gray-500 flex items-center gap-1.5">
+                  <span className="w-1.5 h-1.5 rounded-full bg-gray-400"></span>
                   <span>Optional · Unchecked by default for your control</span>
                 </div>
               </div>

@@ -20,6 +20,7 @@ import {
   Coffee,
   MapPin,
   Leaf,
+  Users,
   X
 } from 'lucide-react';
 import { Stay, Flight, Train, Cab } from '@/types/farways';
@@ -90,6 +91,7 @@ export function DiscoveryEngine({ initialStays, initialFlights, initialTrains, i
   const [stayCity, setStayCity] = useState<'All' | 'Mumbai' | 'Delhi NCR' | 'Goa'>('All');
   const [staySearch, setStaySearch] = useState('');
   const [stayStar, setStayStar] = useState<number | 'all'>('all');
+  const [stayGuests, setStayGuests] = useState<number | 'all'>('all');
   const [staySort, setStaySort] = useState<'recommended' | 'price_low' | 'price_high' | 'rating'>('recommended');
   const [priceMode, setPriceMode] = useState<'per_night' | 'total'>('per_night');
   const stayNights = 2; // Default travel stay nights for total computation
@@ -115,22 +117,60 @@ export function DiscoveryEngine({ initialStays, initialFlights, initialTrains, i
     if (cmd.mode) {
       setActiveTab(cmd.mode);
     }
-    if (cmd.city) {
-      setStayCity(cmd.city as any);
-    }
-    if (cmd.origin) {
-      setFlightOrigin(cmd.origin);
-    }
-    if (cmd.destination) {
-      setFlightDestination(cmd.destination);
-    }
-    if (cmd.keyword) {
-      if (cmd.mode === 'trains' || (!cmd.mode && activeTab === 'trains')) {
+
+    // Mode-specific filter switching
+    if (cmd.mode === 'trains') {
+      if (cmd.typeFilter) {
+        setTrainTypeFilter(cmd.typeFilter);
+      }
+      if (cmd.origin) {
+        setTrainOrigin(cmd.origin);
+      }
+      if (cmd.keyword) {
         setTrainSearch(cmd.keyword);
-      } else if (cmd.mode === 'cabs' || (!cmd.mode && activeTab === 'cabs')) {
+      } else if (cmd.destination) {
+        setTrainSearch(cmd.destination);
+      }
+    } else if (cmd.mode === 'cabs') {
+      if (cmd.category) {
+        setCabCategory(cmd.category);
+      }
+      if (cmd.keyword) {
         setCabSearch(cmd.keyword);
-      } else if (cmd.mode === 'stays' || (!cmd.mode && activeTab === 'stays')) {
+      } else if (cmd.destination) {
+        setCabSearch(cmd.destination);
+      } else if (cmd.city) {
+        setCabSearch(cmd.city);
+      }
+    } else if (cmd.mode === 'flights') {
+      if (cmd.origin) {
+        setFlightOrigin(cmd.origin);
+      }
+      if (cmd.destination) {
+        setFlightDestination(cmd.destination);
+      }
+    } else if (cmd.mode === 'stays') {
+      if (cmd.city) {
+        setStayCity(cmd.city as any);
+      }
+      if (cmd.keyword && cmd.keyword !== cmd.city) {
         setStaySearch(cmd.keyword);
+      }
+    } else {
+      // General fallbacks when mode was inferred or activeTab maintained
+      if (cmd.city) {
+        setStayCity(cmd.city as any);
+      }
+      if (cmd.origin) {
+        setFlightOrigin(cmd.origin);
+      }
+      if (cmd.destination) {
+        setFlightDestination(cmd.destination);
+      }
+      if (cmd.keyword) {
+        if (activeTab === 'trains') setTrainSearch(cmd.keyword);
+        else if (activeTab === 'cabs') setCabSearch(cmd.keyword);
+        else if (activeTab === 'stays') setStaySearch(cmd.keyword);
       }
     }
   };
@@ -177,6 +217,11 @@ export function DiscoveryEngine({ initialStays, initialFlights, initialTrains, i
         return false;
       }
 
+      // Guest Capacity Filter (Isolated to Stays Only)
+      if (stayGuests !== 'all' && stay.maxGuests < stayGuests) {
+        return false;
+      }
+
       return true;
     }).sort((a, b) => {
       if (staySort === 'price_low') return a.total_price - b.total_price;
@@ -184,7 +229,7 @@ export function DiscoveryEngine({ initialStays, initialFlights, initialTrains, i
       if (staySort === 'rating') return b.rating - a.rating;
       return 0; // recommended
     });
-  }, [initialStays, stayCity, staySearch, stayStar, staySort, dateMultiplier, filterFreeCancel, filterBreakfast, filterNearTransit, filterEco, maxBudget]);
+  }, [initialStays, stayCity, staySearch, stayStar, stayGuests, staySort, dateMultiplier, filterFreeCancel, filterBreakfast, filterNearTransit, filterEco, maxBudget]);
 
   // ==========================================
   // Filtered Flights Memo
@@ -442,7 +487,7 @@ export function DiscoveryEngine({ initialStays, initialFlights, initialTrains, i
           <div className="flex flex-wrap items-center gap-2">
             <span className="text-xs font-extrabold uppercase tracking-wider text-slate flex items-center gap-1.5 mr-1">
               <Filter className="w-3.5 h-3.5 text-ocean" />
-              <span>Traveler Priorities:</span>
+              <span>Quick Priorities:</span>
             </span>
 
             {/* 1. Free Cancellation */}
@@ -635,8 +680,27 @@ export function DiscoveryEngine({ initialStays, initialFlights, initialTrains, i
                 </div>
               </div>
 
-              {/* Star Rating & Sort Filter Suite */}
+              {/* Star Rating, Travelers & Sort Filter Suite (Strictly Isolated to Stays) */}
               <div className="flex flex-wrap items-center gap-3 w-full sm:w-auto justify-end">
+                <div className="flex items-center gap-1.5 text-xs">
+                  <span className="text-slate flex items-center gap-1">
+                    <Users className="w-3.5 h-3.5 text-ocean" />
+                    <span>Travelers:</span>
+                  </span>
+                  <select
+                    value={stayGuests}
+                    onChange={(e) => setStayGuests(e.target.value === 'all' ? 'all' : Number(e.target.value))}
+                    className="px-2.5 py-1.5 rounded-lg border border-line bg-white text-xs font-semibold text-ink focus:border-ocean focus:outline-none"
+                    aria-label="Filter stays by traveler/guest capacity"
+                  >
+                    <option value="all">Any Guests</option>
+                    <option value={1}>1 Guest</option>
+                    <option value={2}>2 Guests</option>
+                    <option value={3}>3 Guests</option>
+                    <option value={4}>4+ Guests</option>
+                  </select>
+                </div>
+
                 <div className="flex items-center gap-1.5 text-xs">
                   <span className="text-slate">Category:</span>
                   <select
@@ -780,7 +844,7 @@ export function DiscoveryEngine({ initialStays, initialFlights, initialTrains, i
 
           {/* Flights Grid */}
           {filteredFlights.length > 0 ? (
-            <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
               {filteredFlights.map((flight) => (
                 <FlightCard
                   key={flight.id}
@@ -905,7 +969,7 @@ export function DiscoveryEngine({ initialStays, initialFlights, initialTrains, i
 
           {/* Trains Grid */}
           {filteredTrains.length > 0 ? (
-            <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
               {filteredTrains.map((train) => (
                 <TrainCard
                   key={train.id}
@@ -1001,7 +1065,7 @@ export function DiscoveryEngine({ initialStays, initialFlights, initialTrains, i
 
           {/* Cabs Grid */}
           {filteredCabs.length > 0 ? (
-            <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
               {filteredCabs.map((cab) => (
                 <CabCard
                   key={cab.id}

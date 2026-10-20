@@ -85,32 +85,34 @@ export function TrainCard({ train, onOpenDetails }: TrainCardProps) {
 
         {/* Top Header: Train Info & Compare Checkbox */}
         <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3 pb-4 border-b border-line">
-          <div className="flex items-center gap-3">
+          <div className="flex items-center gap-3 min-w-0 flex-1">
             <div className="w-11 h-11 rounded-xl bg-sky text-ocean flex items-center justify-center shrink-0 border border-sky-deep group-hover:bg-ocean group-hover:text-white transition-colors duration-200">
               <TrainFront className="w-6 h-6" />
             </div>
-            <div>
-              <div className="flex flex-wrap items-center gap-2">
-                <span className="font-mono text-sm font-bold text-ocean">
+            <div className="min-w-0 flex-1">
+              <div className="flex items-center gap-2 mb-1 flex-wrap">
+                <span className="font-mono text-xs sm:text-sm font-bold text-ocean shrink-0">
                   #{train.trainNumber}
                 </span>
-                <span className="text-base font-extrabold text-ink group-hover:text-ocean transition-colors">
-                  {train.trainName}
-                </span>
-                <span className="px-2 py-0.5 rounded text-[10px] font-bold bg-sky-deep text-ocean border border-ocean/20">
+                <span className="px-2 py-0.5 rounded text-[10px] font-bold bg-sky-deep text-ocean border border-ocean/20 shrink-0">
                   {train.trainType}
                 </span>
               </div>
-              <div className="flex items-center gap-2 text-xs text-slate mt-0.5">
-                <Calendar className="w-3.5 h-3.5 text-slate-muted" />
-                <span>Runs: {train.runsOnDays.join(', ')}</span>
-                <span className="text-slate-muted">•</span>
-                <span>{train.distanceKm} km</span>
+              <h3 className="text-base font-extrabold text-ink group-hover:text-ocean transition-colors whitespace-normal break-words line-clamp-2 leading-snug">
+                {train.trainName}
+              </h3>
+              <div className="flex items-center gap-2 text-xs text-slate mt-1 min-w-0">
+                <Calendar className="w-3.5 h-3.5 text-slate-muted shrink-0" />
+                <span className="truncate whitespace-nowrap" title={`Runs: ${train.runsOnDays.join(', ')}`}>
+                  Runs: {train.runsOnDays.join(', ')}
+                </span>
+                <span className="text-slate-muted shrink-0">•</span>
+                <span className="whitespace-nowrap shrink-0">{train.distanceKm} km</span>
               </div>
             </div>
           </div>
 
-          <div className="flex items-center gap-2 self-end sm:self-center">
+          <div className="flex items-center gap-2 self-end sm:self-center shrink-0">
             {/* Punctuality Badge */}
             <div className="flex items-center gap-1 px-2.5 py-1 rounded-full text-xs font-semibold bg-green-50 text-green border border-green-200">
               <Clock className="w-3.5 h-3.5" />
@@ -186,7 +188,7 @@ export function TrainCard({ train, onOpenDetails }: TrainCardProps) {
             </span>
           </div>
 
-          <div className="grid grid-cols-2 sm:grid-cols-4 gap-2">
+          <div className="flex overflow-x-auto gap-2 pb-2 hide-scrollbar [scrollbar-width:none] [-ms-overflow-style:none] [&::-webkit-scrollbar]:hidden">
             {train.classes.map((cls) => {
               const isSelected = cls.classCode === selectedClassCode;
               return (
@@ -194,7 +196,7 @@ export function TrainCard({ train, onOpenDetails }: TrainCardProps) {
                   key={cls.classCode}
                   type="button"
                   onClick={() => setSelectedClassCode(cls.classCode)}
-                  className={`p-2.5 rounded-xl border text-left transition-all cursor-pointer ${
+                  className={`shrink-0 min-w-[130px] p-2.5 rounded-xl border text-left transition-all cursor-pointer ${
                     isSelected
                       ? 'border-ocean bg-ocean text-white shadow-sm ring-2 ring-ocean/20'
                       : 'border-line bg-white hover:border-ocean/50 hover:bg-sky/50'

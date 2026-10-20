@@ -2,9 +2,22 @@ import { createClient, SupabaseClient } from '@supabase/supabase-js';
 import { MOCK_STAYS, MOCK_FLIGHTS, MOCK_CABS, MOCK_TRAINS } from '@/lib/data/mockData';
 import { Booking, Train, Stay, Flight, Cab, UserProfile, DbUserProfile } from '@/types/farways';
 
-const rawUrl = process.env.NEXT_PUBLIC_SUPABASE_URL?.trim();
-const supabaseUrl = rawUrl ? rawUrl.replace(/\/+$/, '') : undefined;
+/**
+ * Normalizes Supabase URL by removing trailing slashes and mistakenly included API paths
+ * like /rest/v1 or /auth/v1 which cause Kong "PGRST125: Invalid path specified in request URL".
+ */
+export const cleanSupabaseUrl = (url?: string): string | undefined => {
+  if (!url) return undefined;
+  let cleaned = url.trim().replace(/\/+$/, '');
+  cleaned = cleaned.replace(/\/rest\/v1\/?$/i, '');
+  cleaned = cleaned.replace(/\/auth\/v1\/?$/i, '');
+  return cleaned.replace(/\/+$/, '');
+};
+
+const rawUrl = process.env.NEXT_PUBLIC_SUPABASE_URL;
+const supabaseUrl = cleanSupabaseUrl(rawUrl);
 const supabaseAnonKey = process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY?.trim();
+
 
 /**
  * Checks if real Supabase environment variables are connected.
@@ -376,9 +389,18 @@ export const farwaysDataService = {
   async createBooking(booking: Omit<Booking, 'id' | 'created_at'>): Promise<Booking> {
     const confirmationCode = booking.confirmation_code || `FW${Math.floor(100000 + Math.random() * 900000)}`;
 
+    // Generate a valid UUID string so it seamlessly satisfies both PostgreSQL UUID and TEXT column types
+    const bookingId = (typeof crypto !== 'undefined' && crypto.randomUUID)
+      ? crypto.randomUUID()
+      : 'xxxxxxxx-xxxx-4xxx-yxxx-xxxxxxxxxxxx'.replace(/[xy]/g, (c) => {
+          const r = (Math.random() * 16) | 0;
+          const v = c === 'x' ? r : (r & 0x3) | 0x8;
+          return v.toString(16);
+        });
+
     const newBooking: Booking = {
       ...booking,
-      id: `bk-${Date.now()}-${Math.random().toString(36).slice(2, 7)}`,
+      id: bookingId,
       confirmation_code: confirmationCode,
       status: booking.status || 'confirmed',
       created_at: new Date().toISOString(),
@@ -388,6 +410,9 @@ export const farwaysDataService = {
       try {
         const { data, error } = await supabase.from('bookings').insert([newBooking]).select().single();
         if (!error && data) return data;
+        if (error) {
+          console.warn('[Farways Supabase] Booking insert returned error:', error.message || error);
+        }
       } catch (err) {
         console.warn('[Farways Supabase] Booking insert failed, storing locally:', err);
       }
@@ -440,18 +465,22 @@ export const farwaysDataService = {
 
   async cancelBooking(bookingIdOrCode: string): Promise<{ success: boolean; booking?: Booking; error?: string }> {
     let targetBooking: Booking | undefined;
+    const isUuid = /^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$/i.test(bookingIdOrCode);
 
     if (isSupabaseConfigured()) {
       try {
-        const { data, error } = await supabase
-          .from('bookings')
-          .update({ status: 'cancelled' })
-          .or(`id.eq.${bookingIdOrCode},confirmation_code.eq.${bookingIdOrCode}`)
-          .select()
-          .single();
+        let query = supabase.from('bookings').update({ status: 'cancelled' });
+        if (isUuid) {
+          query = query.or(`id.eq.${bookingIdOrCode},confirmation_code.eq.${bookingIdOrCode}`);
+        } else {
+          query = query.eq('confirmation_code', bookingIdOrCode);
+        }
+        const { data, error } = await query.select().single();
 
         if (!error && data) {
           targetBooking = data;
+        } else if (error) {
+          console.warn('[Farways Supabase] Cancel booking query returned error:', error.message || error);
         }
       } catch (err) {
         console.warn('[Farways Supabase] Cancel booking failed:', err);
@@ -633,10 +662,25 @@ export const farwaysDataService = {
         if (prefs.marketingOptIn !== undefined) updatePayload.marketing_opt_in = prefs.marketingOptIn;
         if (prefs.preferredCurrency !== undefined) updatePayload.preferred_currency = prefs.preferredCurrency;
 
-        await supabase
+        const { data: existing } = await supabase
           .from('user_profiles')
-          .update(updatePayload)
-          .or(`id.eq.${clean},email.eq.${clean}`);
+          .select('id, email')
+          .or(`id.eq.${clean},email.eq.${clean}`)
+          .maybeSingle();
+
+        if (existing) {
+          await supabase
+            .from('user_profiles')
+            .update(updatePayload)
+            .or(`id.eq.${clean},email.eq.${clean}`);
+        } else {
+          await supabase.from('user_profiles').insert([{
+            id: `usr-${Date.now()}`,
+            email: clean.includes('@') ? clean : `${clean}@mobile.farways.in`,
+            full_name: clean.includes('@') ? clean.split('@')[0] : 'Traveler',
+            ...updatePayload,
+          }]);
+        }
       } catch (err) {
         console.warn('[Farways Supabase] Update preferences failed:', err);
       }

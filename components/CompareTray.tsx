@@ -129,31 +129,42 @@ export function CompareProvider({ children }: { children: React.ReactNode }) {
         <aside
           role="region"
           aria-label="Comparison Tray"
-          className="fixed bottom-16 sm:bottom-6 left-1/2 -translate-x-1/2 z-40 w-[95%] max-w-4xl bg-white border border-ocean/30 rounded-2xl shadow-modal p-3.5 sm:p-4 animate-calm overflow-hidden"
+          className="fixed bottom-20 md:bottom-6 inset-x-0 z-40 px-3 sm:px-4 pointer-events-none animate-calm"
         >
-          <div className="flex flex-col sm:flex-row items-center justify-between gap-3">
+          <div className="w-full max-w-7xl mx-auto px-4 py-3 sm:py-3.5 bg-white border border-ocean/30 rounded-2xl shadow-modal flex flex-col sm:flex-row items-center justify-between gap-4 pointer-events-auto">
             {/* Left: Indicator & Count */}
-            <div className="flex items-center gap-3">
-              <div className="w-9 h-9 rounded-xl bg-ocean text-white flex items-center justify-center shrink-0 shadow-sm">
-                <Scale className="w-5 h-5" />
-              </div>
-              <div>
-                <div className="flex items-center gap-2">
-                  <span className="text-xs font-bold text-ink">
-                    Comparison Tray ({compareItems.length}/3)
-                  </span>
-                  <span className="text-[10px] font-semibold px-2 py-0.5 rounded-full bg-sky text-ocean border border-sky-deep">
-                    Side-by-Side
-                  </span>
+            <div className="flex items-center justify-between sm:justify-start gap-2.5 shrink-0 w-full sm:w-auto">
+              <div className="flex items-center gap-2.5">
+                <div className="w-8 h-8 sm:w-9 sm:h-9 rounded-xl bg-ocean text-white flex items-center justify-center shrink-0 shadow-sm">
+                  <Scale className="w-4 h-4 sm:w-5 h-5" />
                 </div>
-                <p className="text-[11px] text-slate hidden sm:block">
-                  Eliminates multi-tab browser sprawl with instant attribute matrix.
-                </p>
+                <div>
+                  <div className="flex items-center gap-1.5">
+                    <span className="text-xs font-bold text-ink whitespace-nowrap">
+                      Compare Tray ({compareItems.length}/3)
+                    </span>
+                    <span className="text-[10px] font-semibold px-2 py-0.5 rounded-full bg-sky text-ocean border border-sky-deep whitespace-nowrap">
+                      Side-by-Side
+                    </span>
+                  </div>
+                  <p className="text-[11px] text-slate hidden lg:block">
+                    Eliminates multi-tab browser sprawl with instant attribute matrix.
+                  </p>
+                </div>
               </div>
+
+              {/* Mobile-only Clear button */}
+              <button
+                type="button"
+                onClick={clearCompare}
+                className="sm:hidden text-xs font-medium text-slate hover:text-ink px-2 py-1 cursor-pointer"
+              >
+                Clear
+              </button>
             </div>
 
             {/* Center: Selected Mini Chips (Clean scroll-free container) */}
-            <div className="flex items-center gap-2 overflow-x-auto max-w-full py-1 [scrollbar-width:none] [-ms-overflow-style:none] [&::-webkit-scrollbar]:hidden">
+            <div className="flex items-center gap-2 overflow-x-auto max-w-full min-w-0 py-1 [scrollbar-width:none] [-ms-overflow-style:none] [&::-webkit-scrollbar]:hidden flex-1 justify-start">
               {compareItems.map((ci) => {
                 const title =
                   'name' in ci.item
@@ -183,11 +194,11 @@ export function CompareProvider({ children }: { children: React.ReactNode }) {
             </div>
 
             {/* Right: Actions */}
-            <div className="flex items-center gap-2 w-full sm:w-auto justify-end shrink-0">
+            <div className="flex items-center gap-2 shrink-0 w-full sm:w-auto justify-end pt-2 sm:pt-0 border-t sm:border-t-0 border-line">
               <button
                 type="button"
                 onClick={clearCompare}
-                className="text-xs font-medium text-slate hover:text-ink px-2 py-1.5 cursor-pointer"
+                className="hidden sm:inline-block text-xs font-medium text-slate hover:text-ink px-2.5 py-1.5 cursor-pointer"
               >
                 Clear
               </button>
@@ -195,7 +206,7 @@ export function CompareProvider({ children }: { children: React.ReactNode }) {
                 type="button"
                 onClick={openCompareModal}
                 disabled={compareItems.length < 2}
-                className="btn-primary py-2 px-3.5 text-xs font-bold flex items-center gap-1.5 disabled:opacity-50"
+                className="btn-primary w-full sm:w-auto py-2.5 px-4 text-xs font-bold flex items-center justify-center gap-1.5 disabled:opacity-50 whitespace-nowrap shrink-0 shadow-sm"
               >
                 <span>Compare Now</span>
                 <ArrowRight className="w-3.5 h-3.5" />

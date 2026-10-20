@@ -13,10 +13,11 @@ import {
   User, 
   LogOut, 
   ChevronDown, 
-  ShieldCheck
+  ShieldCheck,
+  Menu,
+  X
 } from 'lucide-react';
 import { useAuth } from '@/lib/auth/AuthContext';
-import { DatabaseStatusPill } from '@/components/DatabaseStatusModal';
 
 interface NavItem {
   id: string;
@@ -112,9 +113,17 @@ function NavLinksMobile() {
 
 export function Navbar() {
   const { user, openAuthModal, signOut } = useAuth();
+  const pathname = usePathname();
 
   const [isUserMenuOpen, setIsUserMenuOpen] = useState(false);
+  const [isMobileNavOpen, setIsMobileNavOpen] = useState(false);
   const userMenuRef = useRef<HTMLDivElement>(null);
+
+  // Close menus when route changes
+  useEffect(() => {
+    setIsMobileNavOpen(false);
+    setIsUserMenuOpen(false);
+  }, [pathname]);
 
   // Close dropdown when clicking outside
   useEffect(() => {
@@ -134,10 +143,10 @@ export function Navbar() {
           ========================================================================= */}
       <header className="sticky top-0 z-40 bg-white/95 backdrop-blur-md border-b border-line shadow-subtle">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="h-16 flex items-center justify-between gap-4">
+          <div className="h-16 flex items-center justify-between gap-3 sm:gap-4">
             
             {/* Brand Logo & Research Attribution */}
-            <div className="flex items-center gap-6">
+            <div className="flex items-center gap-3 sm:gap-6">
               <Link
                 href="/"
                 className="flex items-center gap-2.5 group focus-visible:ring-2 focus-visible:ring-ocean rounded-lg p-1"
@@ -172,87 +181,199 @@ export function Navbar() {
               <NavLinksDesktop />
             </Suspense>
 
-            {/* Right Action Suite: DB Status Pill & Dynamic Auth State */}
-            <div className="flex items-center gap-2.5">
-              <DatabaseStatusPill />
-              {user ? (
-                <div className="relative" ref={userMenuRef}>
-                  <button
-                    onClick={() => setIsUserMenuOpen(!isUserMenuOpen)}
-                    className="flex items-center gap-2 px-2.5 py-1.5 rounded-xl border border-line bg-white hover:bg-sky transition-colors cursor-pointer text-left focus-visible:ring-2 focus-visible:ring-ocean"
-                    aria-expanded={isUserMenuOpen}
-                    aria-label="User Account Menu"
-                  >
-                    <div className="w-7 h-7 rounded-lg bg-sky-deep text-ocean font-bold text-xs flex items-center justify-center border border-ocean/20">
-                      {user.fullName.charAt(0).toUpperCase()}
-                    </div>
-                    <div className="hidden sm:block">
-                      <div className="text-xs font-bold text-ink leading-none">
-                        {user.fullName.split(' ')[0]}
+            {/* Right Action Suite: Dynamic Auth State & Mobile Hamburger */}
+            <div className="flex items-center gap-2 sm:gap-2.5">
+
+              {/* Desktop Auth Controls */}
+              <div className="hidden sm:flex items-center gap-2">
+                {user ? (
+                  <div className="relative" ref={userMenuRef}>
+                    <button
+                      onClick={() => setIsUserMenuOpen(!isUserMenuOpen)}
+                      className="flex items-center gap-2 px-2.5 py-1.5 rounded-xl border border-line bg-white hover:bg-sky transition-colors cursor-pointer text-left focus-visible:ring-2 focus-visible:ring-ocean"
+                      aria-expanded={isUserMenuOpen}
+                      aria-label="User Account Menu"
+                    >
+                      <div className="w-7 h-7 rounded-lg bg-sky-deep text-ocean font-bold text-xs flex items-center justify-center border border-ocean/20">
+                        {user.fullName.charAt(0).toUpperCase()}
                       </div>
-                      <div className="text-[10px] text-slate leading-tight truncate max-w-[100px]">
-                        {user.phone ? `+91 ${user.phone}` : user.email}
+                      <div>
+                        <div className="text-xs font-bold text-ink leading-none">
+                          {user.fullName.split(' ')[0]}
+                        </div>
+                        <div className="text-[10px] text-slate leading-tight truncate max-w-[100px]">
+                          {user.phone ? `+91 ${user.phone}` : user.email}
+                        </div>
                       </div>
-                    </div>
-                    <ChevronDown className="w-3.5 h-3.5 text-slate ml-0.5" />
-                  </button>
+                      <ChevronDown className="w-3.5 h-3.5 text-slate ml-0.5" />
+                    </button>
 
-                  {/* Dropdown Menu */}
-                  {isUserMenuOpen && (
-                    <div className="absolute right-0 mt-2 w-64 bg-white border border-line rounded-xl shadow-modal p-2 z-50 animate-calm">
-                      <div className="p-2 border-b border-line mb-1">
-                        <div className="text-xs font-bold text-ink">{user.fullName}</div>
-                        <div className="text-[11px] text-slate truncate">{user.email}</div>
-                        {user.phone && (
-                          <div className="text-[11px] text-slate">+91 {user.phone}</div>
-                        )}
+                    {/* Dropdown Menu */}
+                    {isUserMenuOpen && (
+                      <div className="absolute right-0 mt-2 w-64 bg-white border border-line rounded-xl shadow-modal p-2 z-50 animate-calm">
+                        <div className="p-2 border-b border-line mb-1">
+                          <div className="text-xs font-bold text-ink">{user.fullName}</div>
+                          <div className="text-[11px] text-slate truncate">{user.email}</div>
+                          {user.phone && (
+                            <div className="text-[11px] text-slate">+91 {user.phone}</div>
+                          )}
+                        </div>
+
+                        <Link
+                          href="/dashboard"
+                          onClick={() => setIsUserMenuOpen(false)}
+                          className="flex items-center gap-2 px-3 py-2 text-xs font-medium text-slate hover:text-ink hover:bg-sky rounded-lg transition-colors"
+                        >
+                          <Ticket className="w-4 h-4 text-ocean" />
+                          <span>My Dashboard & Bookings</span>
+                        </Link>
+
+                        <div className="border-t border-line my-1"></div>
+
+                        <button
+                          type="button"
+                          onClick={() => {
+                            setIsUserMenuOpen(false);
+                            signOut();
+                          }}
+                          className="w-full flex items-center gap-2 px-3 py-2 text-xs font-medium text-red-600 hover:bg-red-50 rounded-lg transition-colors text-left cursor-pointer"
+                        >
+                          <LogOut className="w-4 h-4" />
+                          <span>Sign Out</span>
+                        </button>
                       </div>
+                    )}
+                  </div>
+                ) : (
+                  <div className="flex items-center gap-2">
+                    <Link
+                      href="/login"
+                      className="px-3.5 py-2 text-xs font-bold text-ink hover:text-ocean hover:bg-sky rounded-lg transition-colors cursor-pointer"
+                    >
+                      Sign In
+                    </Link>
+                    <Link
+                      href="/login?tab=signup"
+                      className="btn-primary text-xs font-bold px-3.5 py-2"
+                    >
+                      Register
+                    </Link>
+                  </div>
+                )}
+              </div>
 
-                      <Link
-                        href="/dashboard"
-                        onClick={() => setIsUserMenuOpen(false)}
-                        className="flex items-center gap-2 px-3 py-2 text-xs font-medium text-slate hover:text-ink hover:bg-sky rounded-lg transition-colors"
-                      >
-                        <Ticket className="w-4 h-4 text-ocean" />
-                        <span>My Dashboard & Bookings</span>
-                      </Link>
-
-                      <div className="border-t border-line my-1"></div>
-
-                      <button
-                        type="button"
-                        onClick={() => {
-                          setIsUserMenuOpen(false);
-                          signOut();
-                        }}
-                        className="w-full flex items-center gap-2 px-3 py-2 text-xs font-medium text-red-600 hover:bg-red-50 rounded-lg transition-colors text-left cursor-pointer"
-                      >
-                        <LogOut className="w-4 h-4" />
-                        <span>Sign Out</span>
-                      </button>
-                    </div>
-                  )}
-                </div>
-              ) : (
-                <div className="flex items-center gap-2">
-                  <Link
-                    href="/login"
-                    className="px-3.5 py-2 text-xs font-bold text-ink hover:text-ocean hover:bg-sky rounded-lg transition-colors cursor-pointer"
-                  >
-                    Sign In
-                  </Link>
-                  <Link
-                    href="/login?tab=signup"
-                    className="btn-primary text-xs font-bold px-3.5 py-2"
-                  >
-                    Register
-                  </Link>
-                </div>
-              )}
+              {/* Mobile Hamburger Menu Button */}
+              <button
+                type="button"
+                onClick={() => setIsMobileNavOpen(!isMobileNavOpen)}
+                className="md:hidden p-2 rounded-xl border border-line bg-sky/50 hover:bg-sky text-ink transition-colors cursor-pointer flex items-center justify-center focus-visible:ring-2 focus-visible:ring-ocean"
+                aria-label={isMobileNavOpen ? 'Close Navigation Menu' : 'Open Navigation Menu'}
+                aria-expanded={isMobileNavOpen}
+              >
+                {isMobileNavOpen ? <X className="w-5 h-5 text-ocean" /> : <Menu className="w-5 h-5 text-ink" />}
+              </button>
             </div>
 
           </div>
         </div>
+
+        {/* Collapsible Mobile Navigation Drawer */}
+        {isMobileNavOpen && (
+          <div 
+            className="md:hidden fixed inset-x-0 top-16 bottom-0 z-50 bg-ink/50 backdrop-blur-sm animate-fadeIn" 
+            onClick={() => setIsMobileNavOpen(false)}
+          >
+            <div 
+              className="bg-white border-b border-line shadow-modal p-4 space-y-4 max-h-[85vh] overflow-y-auto animate-calm"
+              onClick={(e) => e.stopPropagation()}
+            >
+              {/* Category Links */}
+              <div className="space-y-1.5">
+                <span className="text-[11px] font-extrabold uppercase tracking-wider text-slate px-1">
+                  Travel Modes
+                </span>
+                <div className="grid grid-cols-2 gap-2 pt-1">
+                  {NAV_ITEMS.map((item) => {
+                    const Icon = item.icon;
+                    return (
+                      <Link
+                        key={item.id}
+                        href={item.href}
+                        onClick={() => setIsMobileNavOpen(false)}
+                        className="flex items-center gap-2.5 p-3 rounded-xl border border-line bg-sky/30 hover:bg-sky text-ink font-bold text-xs transition-all"
+                      >
+                        <Icon className="w-4 h-4 text-ocean" />
+                        <span>{item.name}</span>
+                      </Link>
+                    );
+                  })}
+                </div>
+              </div>
+
+              {/* Auth / Account Section */}
+              <div className="pt-3 border-t border-line space-y-2">
+                <span className="text-[11px] font-extrabold uppercase tracking-wider text-slate px-1">
+                  Account & Access
+                </span>
+                {user ? (
+                  <div className="p-3 rounded-xl bg-sky/50 border border-line space-y-2.5">
+                    <div className="flex items-center gap-2.5">
+                      <div className="w-8 h-8 rounded-lg bg-sky-deep text-ocean font-bold text-sm flex items-center justify-center border border-ocean/20">
+                        {user.fullName.charAt(0).toUpperCase()}
+                      </div>
+                      <div className="flex-1 min-w-0">
+                        <div className="text-xs font-bold text-ink truncate">{user.fullName}</div>
+                        <div className="text-[11px] text-slate truncate">{user.phone ? `+91 ${user.phone}` : user.email}</div>
+                      </div>
+                    </div>
+                    <div className="pt-1 flex gap-2">
+                      <Link
+                        href="/dashboard"
+                        onClick={() => setIsMobileNavOpen(false)}
+                        className="flex-1 btn-secondary py-2 text-xs font-bold text-center"
+                      >
+                        My Bookings
+                      </Link>
+                      <button
+                        type="button"
+                        onClick={() => {
+                          setIsMobileNavOpen(false);
+                          signOut();
+                        }}
+                        className="px-3 py-2 text-xs font-bold text-red-600 bg-red-50 hover:bg-red-100 rounded-xl transition-colors cursor-pointer"
+                      >
+                        Sign Out
+                      </button>
+                    </div>
+                  </div>
+                ) : (
+                  <div className="grid grid-cols-2 gap-2">
+                    <Link
+                      href="/login"
+                      onClick={() => setIsMobileNavOpen(false)}
+                      className="btn-secondary py-2.5 text-xs font-bold text-center"
+                    >
+                      Sign In
+                    </Link>
+                    <Link
+                      href="/login?tab=signup"
+                      onClick={() => setIsMobileNavOpen(false)}
+                      className="btn-primary py-2.5 text-xs font-bold text-center"
+                    >
+                      Register
+                    </Link>
+                  </div>
+                )}
+              </div>
+
+              {/* Commercial Trust & Transparency Policy */}
+              <div className="p-3 rounded-xl bg-emerald-50 border border-emerald-200 flex items-center gap-2 text-xs text-emerald-800">
+                <ShieldCheck className="w-4 h-4 text-emerald-600 shrink-0" />
+                <span>Guaranteed Net Prices • Zero Dark Patterns • Radical Transparency</span>
+              </div>
+            </div>
+          </div>
+        )}
       </header>
 
       {/* =========================================================================
