@@ -33,6 +33,7 @@ import { useToast } from '@/components/ToastProvider';
 import { farwaysDataService } from '@/lib/supabase/client';
 import { Booking } from '@/types/farways';
 import { ETicketModal } from '@/components/dashboard/ETicketModal';
+import { useCurrency } from '@/lib/context/CurrencyContext';
 import { CancelModal } from '@/components/dashboard/CancelModal';
 import { PreferencesView } from '@/components/dashboard/PreferencesView';
 
@@ -40,6 +41,7 @@ function DashboardMainContent() {
   const searchParams = useSearchParams();
   const newlyBookedCode = searchParams.get('booked');
   const { user, signOut } = useAuth();
+  const { formatPrice } = useCurrency();
   const { compareItems, removeFromCompare, clearCompare, openCompareModal } = useCompare();
   const toast = useToast();
 
@@ -93,9 +95,9 @@ function DashboardMainContent() {
     const res = await farwaysDataService.cancelBooking(booking.id || booking.confirmation_code);
     if (res.success) {
       toast.success(
-        `Reservation ${booking.confirmation_code} cancelled. 100% full refund of ₹${Number(
+        `Reservation ${booking.confirmation_code} cancelled. 100% full refund of ${formatPrice(
           booking.total_amount
-        ).toLocaleString('en-IN')} initiated to your source account with zero platform fees.`,
+        )} initiated to your source account with zero platform fees.`,
         'Zero-Penalty Refund Initiated'
       );
       // Update local state immediately
@@ -158,7 +160,7 @@ function DashboardMainContent() {
             {/* Total Saved via Zero Drip Fees */}
             <div className="bg-white/10 backdrop-blur-md border border-white/15 rounded-2xl p-3 sm:p-4 text-center min-w-[110px]">
               <div className="text-xl sm:text-2xl font-black text-green-300">
-                ₹{stats.totalSaved.toLocaleString('en-IN')}
+                {formatPrice(stats.totalSaved)}
               </div>
               <div className="text-[10px] sm:text-xs text-sky font-semibold uppercase tracking-wider mt-0.5">
                 Saved vs OTAs
@@ -378,7 +380,7 @@ function DashboardMainContent() {
                               {isCancelled ? 'Refunded Total' : 'Net Paid Fare'}
                             </div>
                             <div className="text-xl font-black text-ocean">
-                              ₹{Number(booking.total_amount).toLocaleString('en-IN')}
+                              {formatPrice(booking.total_amount)}
                             </div>
                           </div>
                         </div>
@@ -516,7 +518,7 @@ function DashboardMainContent() {
                             {'city' in item ? item.city : `${item.originCode} ➔ ${item.destinationCode}`}
                           </div>
                           <div className="text-sm font-extrabold text-ocean">
-                            ₹{item.total_price.toLocaleString('en-IN')}
+                            {formatPrice(item.total_price)}
                           </div>
                         </div>
 

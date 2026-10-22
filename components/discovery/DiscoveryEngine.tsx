@@ -32,6 +32,7 @@ import { ItemDetailModal, DetailItem } from './ItemDetailModal';
 import { HonestFareCalendar } from './HonestFareCalendar';
 import { VoiceSearchButton, VoiceCommandResult } from '@/components/VoiceSearchButton';
 import { useToast } from '@/components/ToastProvider';
+import { useCurrency } from '@/lib/context/CurrencyContext';
 
 interface DiscoveryEngineProps {
   initialStays: Stay[];
@@ -42,6 +43,7 @@ interface DiscoveryEngineProps {
 
 export function DiscoveryEngine({ initialStays, initialFlights, initialTrains, initialCabs }: DiscoveryEngineProps) {
   const toast = useToast();
+  const { formatPrice } = useCurrency();
   const searchParams = useSearchParams();
   const paramTab = searchParams.get('tab');
 
@@ -565,7 +567,7 @@ export function DiscoveryEngine({ initialStays, initialFlights, initialTrains, i
                 Max Total Net Budget
               </span>
               <span className="text-xs font-black text-ink">
-                {maxBudget === 0 ? 'No Limit' : `Up to ₹${maxBudget.toLocaleString('en-IN')}`}
+                {maxBudget === 0 ? 'No Limit' : `Up to ${formatPrice(maxBudget)}`}
               </span>
             </div>
 

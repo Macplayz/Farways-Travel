@@ -23,6 +23,7 @@ import {
 import { MOCK_STAYS, MOCK_FLIGHTS, MOCK_TRAINS, MOCK_CABS } from '@/lib/data/mockData';
 import { useAuth } from '@/lib/auth/AuthContext';
 import { SafeImage } from '@/components/ui/SafeImage';
+import { useCurrency } from '@/lib/context/CurrencyContext';
 
 interface Message {
   id: string;
@@ -52,6 +53,7 @@ const QUICK_PROMPTS = [
 
 export function AiSupportWidget() {
   const { user } = useAuth();
+  const { formatPrice } = useCurrency();
   const [isOpen, setIsOpen] = useState(false);
   const [inputVal, setInputVal] = useState('');
   const [isTyping, setIsTyping] = useState(false);
@@ -134,8 +136,8 @@ export function AiSupportWidget() {
         sender: 'assistant',
         text: `The fastest connection is the **Mumbai CSMT to Madgaon Vande Bharat Express (Train #22229)**, completing the scenic Konkan route in **7h 45m** (vs 11+ hours on standard express trains) with a 98% on-time record. 
         
-• Chair Car (CC): ₹1,960 all-inclusive (High-tea + Dinner included)
-• Executive Class (EC): ₹3,752 all-inclusive
+• Chair Car (CC): ${formatPrice(1960)} all-inclusive (High-tea + Dinner included)
+• Executive Class (EC): ${formatPrice(3752)} all-inclusive
 • Second fastest: Tejas Express (#22119) at 8h 30m.`,
         timestamp: time,
         recommendations: [
@@ -406,7 +408,7 @@ export function AiSupportWidget() {
                             </div>
                             {rec.price > 0 && (
                               <div className="text-[11px] font-black text-ink mt-0.5">
-                                ₹{rec.price.toLocaleString('en-IN')}{' '}
+                                {formatPrice(rec.price)}{' '}
                                 <span className="text-[8px] font-normal text-slate">
                                   (Net Total)
                                 </span>

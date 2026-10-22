@@ -199,11 +199,11 @@ export function AuthModal() {
       role="dialog"
       aria-modal="true"
       aria-labelledby="auth-modal-title"
-      className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-ink/50 backdrop-blur-sm animate-calm"
+      className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-ink/50 backdrop-blur-sm animate-calm overflow-y-auto hide-scrollbar [scrollbar-width:none] [-ms-overflow-style:none] [&::-webkit-scrollbar]:hidden"
     >
       <div
         ref={modalRef}
-        className="bg-white border border-line rounded-2xl shadow-modal w-full max-w-md overflow-hidden relative"
+        className="bg-white border border-line rounded-2xl shadow-modal w-full max-w-md overflow-hidden relative max-h-[92vh] flex flex-col hide-scrollbar [scrollbar-width:none] [-ms-overflow-style:none] [&::-webkit-scrollbar]:hidden"
         onClick={(e) => e.stopPropagation()}
       >
         {/* Modal Header */}
@@ -265,7 +265,7 @@ export function AuthModal() {
         </div>
 
         {/* Form Body */}
-        <form onSubmit={handleSubmit} noValidate className="p-6 space-y-4">
+        <form onSubmit={handleSubmit} noValidate className="p-6 space-y-4 overflow-y-auto hide-scrollbar [scrollbar-width:none] [-ms-overflow-style:none] [&::-webkit-scrollbar]:hidden">
           {errors.form && (
             <div
               role="alert"
@@ -407,45 +407,69 @@ export function AuthModal() {
           </button>
         </form>
 
-        {/* 1-Click Demo Profiles */}
-        <div className="p-4 bg-sky/40 border-t border-line">
-          <div className="flex items-center justify-between mb-2">
-            <span className="text-[11px] font-bold text-slate uppercase tracking-wider flex items-center gap-1.5">
-              <Sparkles className="w-3.5 h-3.5 text-ocean" />
-              <span>Instant Demo Profiles (1-Click)</span>
+        {/* Quick Sign-In Options */}
+        <div className="p-4 bg-sky/40 border-t border-line space-y-2">
+          <div className="relative flex items-center justify-center my-1">
+            <div className="absolute inset-0 flex items-center">
+              <div className="w-full border-t border-line" />
+            </div>
+            <span className="relative bg-sky/80 px-2.5 text-[10px] font-bold text-slate uppercase tracking-wider">
+              Quick Sign-In
             </span>
           </div>
+
           <div className="grid grid-cols-2 gap-2 mb-2">
+            {/* Admin */}
+            <button
+              type="button"
+              onClick={() => {
+                demoLogin('admin');
+                toast.success('Logged in as Farways Operations Admin');
+              }}
+              className="col-span-2 px-3 py-2 rounded-lg bg-gradient-to-r from-slate-900 to-ink text-white border border-slate-700 text-xs font-medium hover:border-ocean text-left transition-colors cursor-pointer flex items-center justify-between"
+            >
+              <div>
+                <div className="font-extrabold text-white text-xs">Farways Operations Admin</div>
+                <div className="text-[10px] text-slate-300">admin@farways.com • Full Live Inventory Access</div>
+              </div>
+              <span className="text-[9px] font-bold bg-ocean-light px-2 py-0.5 rounded text-ink">Admin</span>
+            </button>
+
+            {/* Vikram */}
             <button
               type="button"
               onClick={() => {
                 demoLogin('evaluator');
-                toast.success('Logged in as Vikram Malhotra (Frequent Traveler)');
+                toast.success('Logged in as Vikram Malhotra');
               }}
-              className="col-span-2 px-3 py-2 rounded-lg bg-sky border border-sky-deep text-xs font-medium text-ink hover:border-ocean hover:bg-sky-deep/50 text-left transition-colors cursor-pointer flex items-center justify-between"
+              className="col-span-2 px-3 py-2 rounded-lg bg-white border border-line text-xs font-medium text-ink hover:border-ocean hover:bg-sky text-left transition-colors cursor-pointer flex items-center justify-between"
             >
               <div>
-                <div className="font-extrabold text-ocean">Vikram Malhotra (Frequent Traveler)</div>
+                <div className="font-extrabold text-ocean">Vikram Malhotra</div>
                 <div className="text-[10px] text-slate">vikram.malhotra@farways.in · 1,500 Reward Pts</div>
               </div>
-              <span className="text-[10px] font-bold bg-white px-2 py-0.5 rounded text-ocean border border-sky-deep">Frequent Flyer</span>
+              <span className="text-[10px] font-bold bg-sky-deep px-2 py-0.5 rounded text-ocean border border-sky-deep">Frequent Flyer</span>
             </button>
+
+            {/* Arjun */}
             <button
               type="button"
               onClick={() => {
                 demoLogin('arjun');
-                toast.success('Logged in as Arjun Sharma (Verified Traveler)');
+                toast.success('Logged in as Arjun Sharma');
               }}
               className="px-3 py-2 rounded-lg bg-white border border-line text-xs font-medium text-ink hover:border-ocean hover:bg-sky text-left transition-colors cursor-pointer"
             >
               <div className="font-bold">Arjun Sharma</div>
               <div className="text-[10px] text-slate">arjun.sharma@example.com</div>
             </button>
+
+            {/* Priya */}
             <button
               type="button"
               onClick={() => {
                 demoLogin('priya');
-                toast.success('Logged in as Priya Patel (Verified Traveler)');
+                toast.success('Logged in as Priya Patel');
               }}
               className="px-3 py-2 rounded-lg bg-white border border-line text-xs font-medium text-ink hover:border-ocean hover:bg-sky text-left transition-colors cursor-pointer"
             >

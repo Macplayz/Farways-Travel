@@ -10,6 +10,7 @@ import {
   Loader2 
 } from 'lucide-react';
 import { Booking } from '@/types/farways';
+import { useCurrency } from '@/lib/context/CurrencyContext';
 
 interface CancelModalProps {
   booking: Booking | null;
@@ -18,6 +19,7 @@ interface CancelModalProps {
 }
 
 export function CancelModal({ booking, onClose, onConfirmCancel }: CancelModalProps) {
+  const { formatPrice } = useCurrency();
   const [isProcessing, setIsProcessing] = useState(false);
 
   React.useEffect(() => {
@@ -81,7 +83,7 @@ export function CancelModal({ booking, onClose, onConfirmCancel }: CancelModalPr
           <div className="pt-2 border-t border-line flex justify-between items-baseline font-bold">
             <span className="text-slate-muted">Full Refund Amount:</span>
             <span className="text-sm text-green font-extrabold">
-              ₹{Number(booking.total_amount).toLocaleString('en-IN')}
+              {formatPrice(booking.total_amount)}
             </span>
           </div>
           <p className="text-[10px] text-slate-muted pt-1">

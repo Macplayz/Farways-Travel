@@ -17,6 +17,7 @@ import {
 } from 'lucide-react';
 import { Cab } from '@/types/farways';
 import { SafeImage } from '@/components/ui/SafeImage';
+import { useCurrency } from '@/lib/context/CurrencyContext';
 
 interface CabCardProps {
   cab: Cab;
@@ -24,6 +25,7 @@ interface CabCardProps {
 }
 
 export function CabCard({ cab, onOpenDetails }: CabCardProps) {
+  const { formatPrice } = useCurrency();
   const isElectric = cab.fuelType === 'Electric';
 
   return (
@@ -157,11 +159,11 @@ export function CabCard({ cab, onOpenDetails }: CabCardProps) {
           <div className="space-y-1 text-xs text-slate">
             <div className="flex justify-between">
               <span>Base Vehicle Fare:</span>
-              <span className="font-medium text-ink">₹{cab.base_price.toLocaleString('en-IN')}</span>
+              <span className="font-medium text-ink">{formatPrice(cab.base_price)}</span>
             </div>
             <div className="flex justify-between">
               <span>GST (Taxes):</span>
-              <span className="font-medium text-ink">₹{cab.tax.toLocaleString('en-IN')}</span>
+              <span className="font-medium text-ink">{formatPrice(cab.tax)}</span>
             </div>
             <div className="flex justify-between text-green font-medium">
               <span>Tolls & Surcharges:</span>
@@ -170,7 +172,7 @@ export function CabCard({ cab, onOpenDetails }: CabCardProps) {
             <div className="flex justify-between items-baseline pt-2 mt-1 border-t border-line text-sm font-bold text-ink">
               <span>Final Payable Fare:</span>
               <span className="text-base text-ocean font-extrabold">
-                ₹{cab.total_price.toLocaleString('en-IN')}
+                {formatPrice(cab.total_price)}
               </span>
             </div>
           </div>

@@ -16,9 +16,11 @@ import {
   ShieldCheck,
   LayoutDashboard,
   Menu,
+  Coins,
   X
 } from 'lucide-react';
 import { useAuth } from '@/lib/auth/AuthContext';
+import { useCurrency } from '@/lib/context/CurrencyContext';
 
 interface NavItem {
   id: string;
@@ -114,6 +116,7 @@ function NavLinksMobile() {
 
 export function Navbar() {
   const { user, openAuthModal, signOut } = useAuth();
+  const { currency } = useCurrency();
   const pathname = usePathname();
 
   const [isUserMenuOpen, setIsUserMenuOpen] = useState(false);
@@ -226,6 +229,20 @@ export function Navbar() {
                         >
                           <Ticket className="w-4 h-4 text-ocean" />
                           <span>My Dashboard & Bookings</span>
+                        </Link>
+
+                        <Link
+                          href="/dashboard"
+                          onClick={() => setIsUserMenuOpen(false)}
+                          className="flex items-center justify-between px-3 py-2 text-xs font-medium text-slate hover:text-ink hover:bg-sky rounded-lg transition-colors"
+                        >
+                          <div className="flex items-center gap-2">
+                            <Coins className="w-4 h-4 text-ocean" />
+                            <span>Currency</span>
+                          </div>
+                          <span className="text-[10px] font-extrabold px-2 py-0.5 rounded-full bg-sky text-ocean border border-sky-deep">
+                            {currency}
+                          </span>
                         </Link>
 
                         {(user.is_admin || user.email?.toLowerCase().includes('admin') || user.email === 'admin@farways.com') && (

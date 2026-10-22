@@ -16,6 +16,7 @@ import {
   Compass
 } from 'lucide-react';
 import { Booking } from '@/types/farways';
+import { useCurrency } from '@/lib/context/CurrencyContext';
 
 interface ETicketModalProps {
   booking: Booking | null;
@@ -23,6 +24,7 @@ interface ETicketModalProps {
 }
 
 export function ETicketModal({ booking, onClose }: ETicketModalProps) {
+  const { formatPrice } = useCurrency();
   if (!booking) return null;
 
   const handlePrint = () => {
@@ -171,7 +173,7 @@ export function ETicketModal({ booking, onClose }: ETicketModalProps) {
                 {booking.addons_json.map((addon: any) => (
                   <div key={addon.id} className="flex justify-between">
                     <span>✓ {addon.name}</span>
-                    <span className="font-medium text-ink">₹{Number(addon.price).toLocaleString('en-IN')}</span>
+                    <span className="font-medium text-ink">{formatPrice(addon.price)}</span>
                   </div>
                 ))}
               </div>
@@ -185,20 +187,20 @@ export function ETicketModal({ booking, onClose }: ETicketModalProps) {
             </span>
             <div className="flex justify-between">
               <span>Base Fare / Room Rate:</span>
-              <span className="font-medium text-ink">₹{Number(bBaseAmount(booking)).toLocaleString('en-IN')}</span>
+              <span className="font-medium text-ink">{formatPrice(bBaseAmount(booking))}</span>
             </div>
             <div className="flex justify-between">
               <span>Mandatory GST / Airport Levies:</span>
-              <span className="font-medium text-ink">₹{Number(bTaxAmount(booking)).toLocaleString('en-IN')}</span>
+              <span className="font-medium text-ink">{formatPrice(bTaxAmount(booking))}</span>
             </div>
             <div className="flex justify-between text-green font-medium">
               <span>Platform Markup / Surcharge:</span>
-              <span>₹0.00 (Zero Markup Guaranteed)</span>
+              <span>{formatPrice(0)} (Zero Markup Guaranteed)</span>
             </div>
             <div className="flex justify-between items-baseline pt-2 border-t border-line font-bold text-ink text-sm">
               <span>Total Paid Amount:</span>
               <span className="text-lg font-black text-ocean">
-                ₹{Number(booking.total_amount).toLocaleString('en-IN')}
+                {formatPrice(booking.total_amount)}
               </span>
             </div>
           </div>

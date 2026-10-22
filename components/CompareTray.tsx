@@ -19,6 +19,7 @@ import { Stay, Flight, Train } from '@/types/farways';
 import { useToast } from '@/components/ToastProvider';
 import { SafeImage } from '@/components/ui/SafeImage';
 import Link from 'next/link';
+import { useCurrency } from '@/lib/context/CurrencyContext';
 
 export type CompareItem = 
   | { type: 'stay'; item: Stay }
@@ -37,6 +38,7 @@ interface CompareContextType {
 const CompareContext = createContext<CompareContextType | undefined>(undefined);
 
 export function CompareProvider({ children }: { children: React.ReactNode }) {
+  const { formatPrice } = useCurrency();
   const [compareItems, setCompareItems] = useState<CompareItem[]>([]);
   const [isModalOpen, setIsModalOpen] = useState(false);
   const toast = useToast();
@@ -179,7 +181,7 @@ export function CompareProvider({ children }: { children: React.ReactNode }) {
                     className="flex items-center gap-2 px-2.5 py-1.5 rounded-lg bg-sky border border-line text-xs shrink-0"
                   >
                     <span className="font-bold text-ink truncate max-w-[120px] sm:max-w-[160px]">{title}</span>
-                    <span className="text-ocean font-semibold text-[11px]">₹{price.toLocaleString('en-IN')}</span>
+                    <span className="text-ocean font-semibold text-[11px]">{formatPrice(price)}</span>
                     <button
                       type="button"
                       onClick={() => removeFromCompare(ci.item.id)}
@@ -335,19 +337,19 @@ export function CompareProvider({ children }: { children: React.ReactNode }) {
                             <div className="space-y-1 text-slate">
                               <div className="flex justify-between">
                                 <span>Base Room Rate:</span>
-                                <span>₹{item.base_price.toLocaleString('en-IN')}</span>
+                                <span>{formatPrice(item.base_price)}</span>
                               </div>
                               <div className="flex justify-between">
                                 <span>GST (Taxes):</span>
-                                <span>₹{item.tax.toLocaleString('en-IN')}</span>
+                                <span>{formatPrice(item.tax)}</span>
                               </div>
                               <div className="flex justify-between text-green font-medium">
                                 <span>Platform Fee:</span>
-                                <span>₹{item.platform_fee} (Zero Markup)</span>
+                                <span>{formatPrice(item.platform_fee)} (Zero Markup)</span>
                               </div>
                               <div className="flex justify-between pt-1.5 border-t border-line font-bold text-ink text-sm">
                                 <span>Net Total:</span>
-                                <span className="text-ocean">₹{item.total_price.toLocaleString('en-IN')}</span>
+                                <span className="text-ocean">{formatPrice(item.total_price)}</span>
                               </div>
                             </div>
                           </div>
@@ -413,7 +415,7 @@ export function CompareProvider({ children }: { children: React.ReactNode }) {
                             <div className="flex flex-wrap gap-1">
                               {item.classes.map((cls) => (
                                 <span key={cls.classCode} className="px-2 py-0.5 rounded bg-sky border border-sky-deep text-ocean font-bold text-[10px]">
-                                  {cls.classCode}: ₹{cls.fare.toLocaleString('en-IN')}
+                                  {cls.classCode}: {formatPrice(cls.fare)}
                                 </span>
                               ))}
                             </div>
@@ -442,19 +444,19 @@ export function CompareProvider({ children }: { children: React.ReactNode }) {
                             <div className="space-y-1 text-slate">
                               <div className="flex justify-between">
                                 <span>Base IRCTC Fare:</span>
-                                <span>₹{item.base_price.toLocaleString('en-IN')}</span>
+                                <span>{formatPrice(item.base_price)}</span>
                               </div>
                               <div className="flex justify-between">
                                 <span>Superfast & GST:</span>
-                                <span>₹{item.tax.toLocaleString('en-IN')}</span>
+                                <span>{formatPrice(item.tax)}</span>
                               </div>
                               <div className="flex justify-between text-green font-medium">
                                 <span>Farways Platform Fee:</span>
-                                <span>₹0 (Zero Markup)</span>
+                                <span>{formatPrice(0)} (Zero Markup)</span>
                               </div>
                               <div className="flex justify-between pt-1.5 border-t border-line font-bold text-ink text-sm">
                                 <span>Net Total Fare:</span>
-                                <span className="text-ocean">₹{item.total_price.toLocaleString('en-IN')}</span>
+                                <span className="text-ocean">{formatPrice(item.total_price)}</span>
                               </div>
                             </div>
                           </div>
@@ -543,19 +545,19 @@ export function CompareProvider({ children }: { children: React.ReactNode }) {
                             <div className="space-y-1 text-slate">
                               <div className="flex justify-between">
                                 <span>Base Fare:</span>
-                                <span>₹{item.base_price.toLocaleString('en-IN')}</span>
+                                <span>{formatPrice(item.base_price)}</span>
                               </div>
                               <div className="flex justify-between">
                                 <span>Aviation Taxes & Fees:</span>
-                                <span>₹{item.tax.toLocaleString('en-IN')}</span>
+                                <span>{formatPrice(item.tax)}</span>
                               </div>
                               <div className="flex justify-between text-green font-medium">
                                 <span>Platform Surcharge:</span>
-                                <span>₹{item.platform_fee} (Zero Markup)</span>
+                                <span>{formatPrice(item.platform_fee)} (Zero Markup)</span>
                               </div>
                               <div className="flex justify-between pt-1.5 border-t border-line font-bold text-ink text-sm">
                                 <span>Net Total Fare:</span>
-                                <span className="text-ocean">₹{item.total_price.toLocaleString('en-IN')}</span>
+                                <span className="text-ocean">{formatPrice(item.total_price)}</span>
                               </div>
                             </div>
                           </div>

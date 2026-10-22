@@ -15,6 +15,7 @@ import {
 } from 'lucide-react';
 import { Stay, Flight, Train, Cab, Addon, ItemType } from '@/types/farways';
 import { SafeImage } from '@/components/ui/SafeImage';
+import { useCurrency } from '@/lib/context/CurrencyContext';
 
 interface OrderSummaryCardProps {
   item: Stay | Flight | Train | Cab;
@@ -29,6 +30,7 @@ export function OrderSummaryCard({
   selectedAddons,
   stayNights = 1,
 }: OrderSummaryCardProps) {
+  const { formatPrice } = useCurrency();
   // Live Sync timer state (Periodic fare verification)
   const [secondsAgo, setSecondsAgo] = useState(0);
   const [isSyncing, setIsSyncing] = useState(false);
@@ -139,17 +141,17 @@ export function OrderSummaryCard({
       <div className="space-y-2.5 text-xs text-slate">
         <div className="flex justify-between items-center">
           <span>Base Rate:</span>
-          <span className="font-medium text-ink">₹{baseRate.toLocaleString('en-IN')}</span>
+          <span className="font-medium text-ink">{formatPrice(baseRate)}</span>
         </div>
 
         <div className="flex justify-between items-center">
           <span>Mandatory GST & Airport Levies:</span>
-          <span className="font-medium text-ink">₹{taxAmount.toLocaleString('en-IN')}</span>
+          <span className="font-medium text-ink">{formatPrice(taxAmount)}</span>
         </div>
 
         <div className="flex justify-between items-center text-green font-medium">
           <span>Farways Platform Fee:</span>
-          <span>₹{platformFee} (Zero Markup)</span>
+          <span>{platformFee === 0 ? formatPrice(0) : formatPrice(platformFee)} (Zero Markup)</span>
         </div>
 
         {/* Selected Add-ons itemized individually */}
@@ -161,7 +163,7 @@ export function OrderSummaryCard({
             {selectedAddons.map((addon) => (
               <div key={addon.id} className="flex justify-between text-xs text-ocean">
                 <span className="truncate pr-2">+ {addon.name}:</span>
-                <span className="font-semibold shrink-0">₹{addon.price.toLocaleString('en-IN')}</span>
+                <span className="font-semibold shrink-0">{formatPrice(addon.price)}</span>
               </div>
             ))}
           </div>
@@ -174,7 +176,7 @@ export function OrderSummaryCard({
             <span className="text-[10px] text-slate-muted">All taxes & fees included</span>
           </div>
           <span className="text-2xl font-black text-ocean tracking-tight">
-            ₹{grandTotal.toLocaleString('en-IN')}
+            {formatPrice(grandTotal)}
           </span>
         </div>
       </div>

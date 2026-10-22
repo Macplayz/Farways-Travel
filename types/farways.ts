@@ -289,6 +289,8 @@ export interface SelectedAddon {
 /**
  * User Profile & Preferences (Supabase user_profiles schema)
  */
+export type SupportedCurrency = 'INR' | 'USD' | 'EUR' | 'GBP';
+
 export interface UserProfile {
   id: string;
   email: string;
@@ -296,7 +298,7 @@ export interface UserProfile {
   phone?: string;
   city?: string;
   avatarUrl?: string;
-  preferredCurrency: 'INR' | 'USD' | 'EUR' | 'GBP';
+  preferredCurrency: SupportedCurrency;
   highContrastMode?: boolean;
   largeTextMode?: boolean;
   marketingOptIn?: boolean;

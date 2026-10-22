@@ -33,6 +33,7 @@ import {
 } from 'lucide-react';
 import { Stay, Flight, Train, Cab, RoomCategory, TrainCoachClass } from '@/types/farways';
 import { SafeImage } from '@/components/ui/SafeImage';
+import { useCurrency } from '@/lib/context/CurrencyContext';
 
 export type DetailItem =
   | { type: 'stay'; item: Stay }
@@ -136,6 +137,7 @@ export function ItemDetailModal({ isOpen, onClose, data }: ItemDetailModalProps)
 // Room Category Selector, Walk/Safety Score, Pros/Cons, Cancellation Timeline
 // =========================================================================
 function StayDetailView({ stay, onClose }: { stay: Stay; onClose: () => void }) {
+  const { formatPrice } = useCurrency();
   // Generate robust room categories if none explicitly provided
   const categories: RoomCategory[] = stay.roomCategories && stay.roomCategories.length > 0
     ? stay.roomCategories
@@ -438,7 +440,7 @@ function StayDetailView({ stay, onClose }: { stay: Stay; onClose: () => void }) 
                       {cat.name}
                     </span>
                     <span className="text-xs font-bold text-ocean shrink-0">
-                      ₹{cat.totalPrice.toLocaleString('en-IN')}
+                      {formatPrice(cat.totalPrice)}
                     </span>
                   </div>
 
@@ -489,7 +491,7 @@ function StayDetailView({ stay, onClose }: { stay: Stay; onClose: () => void }) 
               Until 48 Hours Before Check-in ({stay.checkInTime})
             </div>
             <div className="text-[11px] text-green font-medium">
-              100% Full Refund credited to original payment source. ₹0 Farways cancellation fee.
+              100% Full Refund credited to original payment source. {formatPrice(0)} Farways cancellation fee.
             </div>
           </div>
 
@@ -525,10 +527,10 @@ function StayDetailView({ stay, onClose }: { stay: Stay; onClose: () => void }) 
           </div>
           <div className="flex items-baseline gap-2 mt-0.5">
             <span className="text-xl font-extrabold text-ocean">
-              ₹{selectedRoom.totalPrice.toLocaleString('en-IN')}
+              {formatPrice(selectedRoom.totalPrice)}
             </span>
             <span className="text-xs text-slate">
-              (₹{selectedRoom.basePrice.toLocaleString('en-IN')} room + ₹{selectedRoom.tax.toLocaleString('en-IN')} GST + ₹0 Fee)
+              ({formatPrice(selectedRoom.basePrice)} room + {formatPrice(selectedRoom.tax)} GST + {formatPrice(0)} Fee)
             </span>
           </div>
         </div>
@@ -551,6 +553,7 @@ function StayDetailView({ stay, onClose }: { stay: Stay; onClose: () => void }) 
 // Baggage Breakdown, Terminal Specifications, On-time History, Refund Calc
 // =========================================================================
 function FlightDetailView({ flight, onClose }: { flight: Flight; onClose: () => void }) {
+  const { formatPrice } = useCurrency();
   const [calcTiming, setCalcTiming] = useState<'early' | 'mid' | 'late'>('early');
 
   const baseFare = flight.base_price;
@@ -664,7 +667,7 @@ function FlightDetailView({ flight, onClose }: { flight: Flight; onClose: () => 
               <span className="text-xs font-bold text-ink">Extra Baggage Rates</span>
             </div>
             <div className="text-base font-extrabold text-ink">
-              ₹550 / kg upfront
+              {formatPrice(550)} / kg upfront
             </div>
             <p className="text-[11px] text-slate mt-1">
               Zero surge fees at counter if pre-booked. Transparent flat IR/DGCA rate.
@@ -755,20 +758,20 @@ function FlightDetailView({ flight, onClose }: { flight: Flight; onClose: () => 
         <div className="p-3.5 rounded-xl bg-sky/50 border border-sky-deep text-xs space-y-1.5">
           <div className="flex justify-between">
             <span className="text-slate">Total Fare Paid:</span>
-            <span className="font-bold text-ink">₹{total.toLocaleString('en-IN')}</span>
+            <span className="font-bold text-ink">{formatPrice(total)}</span>
           </div>
           <div className="flex justify-between text-red-600">
             <span>Airline Statutory Cancellation Penalty:</span>
-            <span className="font-medium">- ₹{airlineDeduction.toLocaleString('en-IN')}</span>
+            <span className="font-medium">- {formatPrice(airlineDeduction)}</span>
           </div>
           <div className="flex justify-between text-green font-medium">
             <span>Farways Processing & Cancellation Fee:</span>
-            <span>₹0 (Zero Markup Guarantee)</span>
+            <span>{formatPrice(0)} (Zero Markup Guarantee)</span>
           </div>
           <div className="flex justify-between items-baseline pt-2 mt-1 border-t border-line text-sm font-bold text-ink">
             <span>Net Refund to Bank / UPI:</span>
             <span className="text-base text-ocean font-extrabold">
-              ₹{netRefund.toLocaleString('en-IN')}
+              {formatPrice(netRefund)}
             </span>
           </div>
         </div>
@@ -797,6 +800,7 @@ function FlightDetailView({ flight, onClose }: { flight: Flight; onClose: () => 
 // Coach breakdown, Intermediate halts, IRCTC Refund Calculator, NTES History
 // =========================================================================
 function TrainDetailView({ train, onClose }: { train: Train; onClose: () => void }) {
+  const { formatPrice } = useCurrency();
   const [selectedClass, setSelectedClass] = useState<TrainCoachClass>(
     train.selectedClass || train.classes[0]?.classCode || 'CC'
   );
@@ -910,7 +914,7 @@ function TrainDetailView({ train, onClose }: { train: Train; onClose: () => void
                     {cls.classCode}
                   </span>
                   <span className={`text-xs font-bold ${isSelected ? 'text-sky-deep' : 'text-ocean'}`}>
-                    ₹{cls.fare.toLocaleString('en-IN')}
+                    {formatPrice(cls.fare)}
                   </span>
                 </div>
                 <div className={`text-[11px] truncate mt-0.5 ${isSelected ? 'text-white/80' : 'text-slate'}`}>
@@ -1008,20 +1012,20 @@ function TrainDetailView({ train, onClose }: { train: Train; onClose: () => void
         <div className="p-3.5 rounded-xl bg-sky/50 border border-sky-deep text-xs space-y-1.5">
           <div className="flex justify-between">
             <span className="text-slate">Class {selectedClass} Total Fare:</span>
-            <span className="font-bold text-ink">₹{fare.toLocaleString('en-IN')}</span>
+            <span className="font-bold text-ink">{formatPrice(fare)}</span>
           </div>
           <div className="flex justify-between text-red-600">
             <span>IRCTC Cancellation Clerkage / Deduction:</span>
-            <span className="font-medium">- ₹{deduction.toLocaleString('en-IN')}</span>
+            <span className="font-medium">- {formatPrice(deduction)}</span>
           </div>
           <div className="flex justify-between text-green font-medium">
             <span>Farways Convenience Retention:</span>
-            <span>₹0 (100% Free Processing)</span>
+            <span>{formatPrice(0)} (100% Free Processing)</span>
           </div>
           <div className="flex justify-between items-baseline pt-2 mt-1 border-t border-line text-sm font-bold text-ink">
             <span>Net Instant Refund:</span>
             <span className="text-base text-ocean font-extrabold">
-              ₹{netRefund.toLocaleString('en-IN')}
+              {formatPrice(netRefund)}
             </span>
           </div>
         </div>
@@ -1047,6 +1051,7 @@ function TrainDetailView({ train, onClose }: { train: Train; onClose: () => void
 // Vehicle Specifications, Terminal Meet-and-Greet, Toll Inclusions, Refund Calc
 // =========================================================================
 function CabDetailView({ cab, onClose }: { cab: Cab; onClose: () => void }) {
+  const { formatPrice } = useCurrency();
   const [calcTiming, setCalcTiming] = useState<'early' | 'late'>('early');
   const deduction = calcTiming === 'early' ? 0 : 150;
   const netRefund = Math.max(0, cab.total_price - deduction);
@@ -1094,7 +1099,7 @@ function CabDetailView({ cab, onClose }: { cab: Cab; onClose: () => void }) {
         <div className="text-right">
           <div className="text-xs text-slate">Guaranteed Fixed Fare</div>
           <div className="text-xl font-extrabold text-ocean">
-            ₹{cab.total_price.toLocaleString('en-IN')}
+            {formatPrice(cab.total_price)}
           </div>
           <div className="text-[10px] text-green font-semibold">Tolls & Parking Included</div>
         </div>
@@ -1204,20 +1209,20 @@ function CabDetailView({ cab, onClose }: { cab: Cab; onClose: () => void }) {
         <div className="p-3.5 rounded-xl bg-sky/50 border border-sky-deep text-xs space-y-1.5">
           <div className="flex justify-between">
             <span className="text-slate">Fixed Transit Fare:</span>
-            <span className="font-bold text-ink">₹{cab.total_price.toLocaleString('en-IN')}</span>
+            <span className="font-bold text-ink">{formatPrice(cab.total_price)}</span>
           </div>
           <div className="flex justify-between text-red-600">
             <span>Driver Mobilization Compensation:</span>
-            <span className="font-medium">{deduction === 0 ? '₹0' : `- ₹${deduction}`}</span>
+            <span className="font-medium">{deduction === 0 ? formatPrice(0) : `- ${formatPrice(deduction)}`}</span>
           </div>
           <div className="flex justify-between text-green font-medium">
             <span>Farways Cancellation Retention:</span>
-            <span>₹0 (Zero Platform Markup)</span>
+            <span>{formatPrice(0)} (Zero Platform Markup)</span>
           </div>
           <div className="flex justify-between items-baseline pt-2 mt-1 border-t border-line text-sm font-bold text-ink">
             <span>Net Refund to Source:</span>
             <span className="text-base text-ocean font-extrabold">
-              ₹{netRefund.toLocaleString('en-IN')}
+              {formatPrice(netRefund)}
             </span>
           </div>
         </div>

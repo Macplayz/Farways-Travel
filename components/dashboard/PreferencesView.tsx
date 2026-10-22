@@ -12,12 +12,14 @@ import {
   Accessibility, 
   Lock 
 } from 'lucide-react';
-import { farwaysDataService } from '@/lib/supabase/client';
+import { farwaysDataService, supabase, isSupabaseConfigured } from '@/lib/supabase/client';
 import { useAuth } from '@/lib/auth/AuthContext';
 import { useToast } from '@/components/ToastProvider';
+import { useCurrency, SupportedCurrency } from '@/lib/context/CurrencyContext';
 
 export function PreferencesView() {
-  const { user } = useAuth();
+  const { user, updateProfile } = useAuth();
+  const { currency, setCurrency: setGlobalCurrency } = useCurrency();
   const toast = useToast();
 
   // Accessibility state (High contrast & text scaling)
@@ -25,10 +27,7 @@ export function PreferencesView() {
   const [largerText, setLargerText] = useState(user?.largeTextMode ?? false);
   const [reducedMotion, setReducedMotion] = useState(false);
 
-  // Currency & Display preferences
-  const [currency, setCurrency] = useState<'INR' | 'USD' | 'EUR' | 'GBP'>(
-    (user?.preferredCurrency as any) || 'INR'
-  );
+  // Display preferences
   const [priceDisplay, setPriceDisplay] = useState<'detailed_itemized' | 'all_inclusive'>('detailed_itemized');
   const [marketingOptIn, setMarketingOptIn] = useState(
     user?.marketingOptIn ?? user?.preferences?.marketingOptIn ?? false
@@ -40,7 +39,6 @@ export function PreferencesView() {
     if (user) {
       if (user.highContrastMode !== undefined) setHighContrast(Boolean(user.highContrastMode));
       if (user.largeTextMode !== undefined) setLargerText(Boolean(user.largeTextMode));
-      if (user.preferredCurrency) setCurrency(user.preferredCurrency as any);
       if (user.marketingOptIn !== undefined) setMarketingOptIn(Boolean(user.marketingOptIn));
     } else if (typeof window !== 'undefined') {
       try {
@@ -50,7 +48,6 @@ export function PreferencesView() {
           if (parsed.highContrast !== undefined) setHighContrast(parsed.highContrast);
           if (parsed.largerText !== undefined) setLargerText(parsed.largerText);
           if (parsed.reducedMotion !== undefined) setReducedMotion(parsed.reducedMotion);
-          if (parsed.currency) setCurrency(parsed.currency);
           if (parsed.priceDisplay) setPriceDisplay(parsed.priceDisplay);
           if (parsed.marketingOptIn !== undefined) setMarketingOptIn(parsed.marketingOptIn);
         }
@@ -59,6 +56,15 @@ export function PreferencesView() {
       }
     }
   }, [user]);
+
+  const handleCurrencyChange = async (newCurrency: SupportedCurrency) => {
+    try {
+      await setGlobalCurrency(newCurrency);
+      toast.success('Currency updated successfully.', 'Preference Saved');
+    } catch (err) {
+      console.error('[PreferencesView] Currency change failed:', err);
+    }
+  };
 
   const handleSave = async () => {
     setIsSaving(true);
@@ -186,8 +192,8 @@ export function PreferencesView() {
               </label>
               <select
                 value={currency}
-                onChange={(e) => setCurrency(e.target.value as any)}
-                className="w-full px-3.5 py-2.5 rounded-xl border border-line bg-white text-xs font-semibold text-ink focus:border-ocean focus:outline-none"
+                onChange={(e) => handleCurrencyChange(e.target.value as any)}
+                className="w-full px-3.5 py-2.5 rounded-xl border border-line bg-white text-xs font-semibold text-ink focus:border-ocean focus:outline-none cursor-pointer"
               >
                 <option value="INR">INR (₹) — Indian Rupee (Default)</option>
                 <option value="USD">USD ($) — US Dollar</option>

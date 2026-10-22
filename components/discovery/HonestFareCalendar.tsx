@@ -11,6 +11,7 @@ import {
   Info,
   Check
 } from 'lucide-react';
+import { useCurrency } from '@/lib/context/CurrencyContext';
 
 interface HonestFareCalendarProps {
   activeTab: 'stays' | 'flights' | 'trains' | 'cabs';
@@ -37,6 +38,7 @@ export function HonestFareCalendar({
   onSelectDate,
   basePrice = 4200,
 }: HonestFareCalendarProps) {
+  const { formatPrice } = useCurrency();
   const [dayOffset, setDayOffset] = useState(0);
 
   // Generate 7 consecutive days starting from today + offset
@@ -245,7 +247,7 @@ export function HonestFareCalendar({
                 <div className={`text-xs sm:text-sm font-black tracking-tight ${
                   day.isLowest ? 'text-green' : isSelected ? 'text-ocean' : 'text-ink'
                 }`}>
-                  ₹{day.netPrice.toLocaleString('en-IN')}
+                  {formatPrice(day.netPrice)}
                 </div>
 
                 {/* Honest Tag */}

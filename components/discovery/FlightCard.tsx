@@ -17,6 +17,7 @@ import { Flight } from '@/types/farways';
 import { AirlineBadge } from './AirlineBadge';
 import { useCompare } from '@/components/CompareTray';
 import { SafeImage } from '@/components/ui/SafeImage';
+import { useCurrency } from '@/lib/context/CurrencyContext';
 
 interface FlightCardProps {
   flight: Flight;
@@ -24,6 +25,7 @@ interface FlightCardProps {
 }
 
 export function FlightCard({ flight, onOpenDetails }: FlightCardProps) {
+  const { formatPrice } = useCurrency();
   const { isInCompare, addToCompare, removeFromCompare } = useCompare();
   const isCompared = isInCompare(flight.id);
 
@@ -156,20 +158,20 @@ export function FlightCard({ flight, onOpenDetails }: FlightCardProps) {
           <div className="space-y-1 text-xs text-slate">
             <div className="flex justify-between">
               <span>Base Airfare:</span>
-              <span className="font-medium text-ink">₹{flight.base_price.toLocaleString('en-IN')}</span>
+              <span className="font-medium text-ink">{formatPrice(flight.base_price)}</span>
             </div>
             <div className="flex justify-between">
               <span>Aviation Taxes & Fees:</span>
-              <span className="font-medium text-ink">₹{flight.tax.toLocaleString('en-IN')}</span>
+              <span className="font-medium text-ink">{formatPrice(flight.tax)}</span>
             </div>
             <div className="flex justify-between text-green font-medium">
               <span>Farways Platform Fee:</span>
-              <span>₹{flight.platform_fee} (Zero Markup)</span>
+              <span>{flight.platform_fee === 0 ? formatPrice(0) : formatPrice(flight.platform_fee)} (Zero Markup)</span>
             </div>
             <div className="flex justify-between items-baseline pt-2 mt-1 border-t border-line text-sm font-bold text-ink">
               <span>Net Guaranteed Fare:</span>
               <span className="text-base text-ocean font-extrabold">
-                ₹{flight.total_price.toLocaleString('en-IN')}
+                {formatPrice(flight.total_price)}
               </span>
             </div>
           </div>

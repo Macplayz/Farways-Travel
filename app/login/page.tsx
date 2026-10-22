@@ -322,7 +322,7 @@ function LoginContent() {
   };
 
   return (
-    <div className="min-h-[calc(100vh-4rem)] flex flex-col lg:flex-row bg-sky/30">
+    <div className="min-h-[calc(100vh-4rem)] flex flex-col lg:flex-row bg-sky/30 hide-scrollbar [scrollbar-width:none] [-ms-overflow-style:none] [&::-webkit-scrollbar]:hidden">
       {/* =========================================================================
           LEFT SIDE: FARWAYS TRUST & TRANSPARENCY MANIFESTO
           ========================================================================= */}
@@ -443,8 +443,8 @@ function LoginContent() {
       {/* =========================================================================
           RIGHT SIDE: INTERACTIVE AUTHENTICATION CARD
           ========================================================================= */}
-      <div className="lg:w-1/2 p-4 sm:p-8 lg:p-12 flex items-center justify-center">
-        <div className="max-w-lg w-full bg-white rounded-3xl p-6 sm:p-8 border border-line shadow-card space-y-6">
+      <div className="lg:w-1/2 p-4 sm:p-8 lg:p-12 flex items-center justify-center hide-scrollbar [scrollbar-width:none] [-ms-overflow-style:none] [&::-webkit-scrollbar]:hidden">
+        <div className="max-w-lg w-full bg-white rounded-3xl p-6 sm:p-8 border border-line shadow-card space-y-6 hide-scrollbar [scrollbar-width:none] [-ms-overflow-style:none] [&::-webkit-scrollbar]:hidden">
           {/* Header & Mode Switcher Pills */}
           <div>
             <div className="flex items-center justify-between mb-4">
@@ -838,24 +838,16 @@ function LoginContent() {
             </form>
           )}
 
-          {/* =========================================================================
-              1-CLICK INSTANT DEMO LOGINS (Testing & Evaluation)
-              ========================================================================= */}
-          <div className="p-4 rounded-2xl bg-sky/60 border border-sky-deep space-y-3">
-            <div className="flex items-center justify-between">
-              <span className="text-xs font-bold text-ink uppercase tracking-wider flex items-center gap-1.5">
-                <Sparkles className="w-3.5 h-3.5 text-ocean" />
-                <span>1-Click Instant Demo Logins</span>
-              </span>
-              <span className="text-[10px] text-green font-bold px-2 py-0.5 rounded bg-green-50 border border-green-200">
-                Instant Access
+          {/* Quick Sign-In Options */}
+          <div className="pt-2 space-y-3">
+            <div className="relative flex items-center justify-center">
+              <div className="absolute inset-0 flex items-center">
+                <div className="w-full border-t border-line" />
+              </div>
+              <span className="relative bg-white px-3 text-[11px] font-bold uppercase tracking-wider text-slate">
+                Or Continue With Verified Profile
               </span>
             </div>
-
-            <p className="text-[11px] text-slate leading-relaxed">
-              For testing and demonstration. Click any verified profile below to explore authenticated account features
-              and real-time booking persistence immediately:
-            </p>
 
             <div className="space-y-2">
               {/* Operations Admin */}
@@ -884,7 +876,7 @@ function LoginContent() {
               >
                 <div>
                   <div className="text-xs font-extrabold text-ink group-hover:text-ocean flex items-center gap-1.5">
-                    <span>Vikram Malhotra (Frequent Traveler)</span>
+                    <span>Vikram Malhotra</span>
                     <span className="px-1.5 py-0.2 rounded text-[9px] font-bold bg-ocean text-white">Frequent Flyer</span>
                   </div>
                   <div className="text-[10px] text-slate mt-0.5">
@@ -933,7 +925,7 @@ function LoginContent() {
 
 export default function LoginPage() {
   return (
-    <main className="min-h-screen bg-white">
+    <main className="min-h-screen bg-white hide-scrollbar [scrollbar-width:none] [-ms-overflow-style:none] [&::-webkit-scrollbar]:hidden">
       <Suspense
         fallback={
           <div className="min-h-screen flex items-center justify-center p-6 text-center">

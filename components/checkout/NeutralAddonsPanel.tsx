@@ -11,6 +11,7 @@ import {
   CheckCircle2
 } from 'lucide-react';
 import { Addon, ItemType } from '@/types/farways';
+import { useCurrency } from '@/lib/context/CurrencyContext';
 
 interface NeutralAddonsPanelProps {
   itemType: ItemType;
@@ -23,7 +24,7 @@ const CORE_ADDONS: Addon[] = [
   {
     id: 'addon-insurance-trip',
     name: 'Travel & Medical Safety Shield',
-    description: 'Comprehensive medical emergency cover up to ₹50,000, trip disruption, and lost baggage compensation.',
+    description: 'Comprehensive medical emergency cover, trip disruption, and lost baggage compensation.',
     category: 'insurance',
     price: 150,
     defaultSelected: false,
@@ -54,6 +55,7 @@ export function NeutralAddonsPanel({
   selectedAddons,
   onToggleAddon,
 }: NeutralAddonsPanelProps) {
+  const { formatPrice } = useCurrency();
   const isSelected = (id: string) => selectedAddons.some((a) => a.id === id);
 
   return (
@@ -109,7 +111,7 @@ export function NeutralAddonsPanel({
                     {addon.name}
                   </span>
                   <span className="text-sm font-extrabold text-ocean shrink-0">
-                    +₹{addon.price.toLocaleString('en-IN')}
+                    +{formatPrice(addon.price)}
                   </span>
                 </div>
 
@@ -141,8 +143,8 @@ export function NeutralAddonsPanel({
           <span>You can decline all add-ons with zero confirmshaming.</span>
         </span>
         <span className="font-bold text-ocean">
-          {selectedAddons.length} Selected (+₹
-          {selectedAddons.reduce((sum, a) => sum + a.price, 0).toLocaleString('en-IN')})
+          {selectedAddons.length} Selected (+
+          {formatPrice(selectedAddons.reduce((sum, a) => sum + a.price, 0))})
         </span>
       </div>
     </div>

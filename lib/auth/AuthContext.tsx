@@ -21,6 +21,7 @@ interface AuthContextType {
   ) => Promise<{ success: boolean; error?: string }>;
   signOut: () => Promise<void>;
   demoLogin: (preset?: 'evaluator' | 'arjun' | 'priya' | 'admin') => void;
+  updateProfile: (updates: Partial<UserProfile>) => Promise<void>;
 }
 
 const AuthContext = createContext<AuthContextType | undefined>(undefined);
@@ -420,6 +421,44 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
     closeAuthModal();
   };
 
+  const updateProfile = async (updates: Partial<UserProfile>) => {
+    setUser((prev) => {
+      if (!prev) return prev;
+      const updated = { ...prev, ...updates };
+      if (typeof window !== 'undefined') {
+        localStorage.setItem('farways_current_user', JSON.stringify(updated));
+      }
+      return updated;
+    });
+
+    if (user?.id || user?.email) {
+      const targetId = user.id || user.email;
+      await farwaysDataService.updateUserPreferences(targetId, {
+        highContrastMode: updates.highContrastMode,
+        largeTextMode: updates.largeTextMode,
+        marketingOptIn: updates.marketingOptIn,
+        preferredCurrency: updates.preferredCurrency,
+      });
+
+      if (isSupabaseConfigured()) {
+        try {
+          const payload: Record<string, unknown> = {};
+          if (updates.preferredCurrency !== undefined) payload.preferred_currency = updates.preferredCurrency;
+          if (updates.highContrastMode !== undefined) payload.high_contrast_mode = updates.highContrastMode;
+          if (updates.largeTextMode !== undefined) payload.large_text_mode = updates.largeTextMode;
+          if (updates.marketingOptIn !== undefined) payload.marketing_opt_in = updates.marketingOptIn;
+
+          await supabase
+            .from('user_profiles')
+            .update(payload)
+            .or(`id.eq.${user.id},email.eq.${user.email}`);
+        } catch (err) {
+          console.warn('[AuthContext] Update user_profiles error:', err);
+        }
+      }
+    }
+  };
+
   return (
     <AuthContext.Provider
       value={{
@@ -433,6 +472,7 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
         signUp,
         signOut,
         demoLogin,
+        updateProfile,
       }}
     >
       {children}

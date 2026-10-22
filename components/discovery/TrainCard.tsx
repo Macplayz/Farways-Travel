@@ -18,6 +18,7 @@ import {
 import { Train, TrainCoachClass } from '@/types/farways';
 import { useCompare } from '@/components/CompareTray';
 import { SafeImage } from '@/components/ui/SafeImage';
+import { useCurrency } from '@/lib/context/CurrencyContext';
 
 interface TrainCardProps {
   train: Train;
@@ -25,6 +26,7 @@ interface TrainCardProps {
 }
 
 export function TrainCard({ train, onOpenDetails }: TrainCardProps) {
+  const { formatPrice } = useCurrency();
   const { isInCompare, addToCompare, removeFromCompare } = useCompare();
   const isCompared = isInCompare(train.id);
 
@@ -207,7 +209,7 @@ export function TrainCard({ train, onOpenDetails }: TrainCardProps) {
                       {cls.classCode}
                     </span>
                     <span className={`text-xs font-bold ${isSelected ? 'text-sky-deep' : 'text-ocean'}`}>
-                      ₹{cls.fare.toLocaleString('en-IN')}
+                      {formatPrice(cls.fare)}
                     </span>
                   </div>
                   <div className={`text-[10px] truncate ${isSelected ? 'text-white/80' : 'text-slate'}`}>
@@ -267,20 +269,20 @@ export function TrainCard({ train, onOpenDetails }: TrainCardProps) {
           <div className="space-y-1 text-xs text-slate">
             <div className="flex justify-between">
               <span>Base IRCTC Fare:</span>
-              <span className="font-medium text-ink">₹{basePrice.toLocaleString('en-IN')}</span>
+              <span className="font-medium text-ink">{formatPrice(basePrice)}</span>
             </div>
             <div className="flex justify-between">
               <span>Superfast & GST Surcharge:</span>
-              <span className="font-medium text-ink">₹{tax.toLocaleString('en-IN')}</span>
+              <span className="font-medium text-ink">{formatPrice(tax)}</span>
             </div>
             <div className="flex justify-between text-green font-semibold">
               <span>Farways Convenience Fee:</span>
-              <span>₹0 (Zero Platform Markup)</span>
+              <span>{formatPrice(0)} (Zero Platform Markup)</span>
             </div>
             <div className="flex justify-between items-baseline pt-2 mt-1 border-t border-line text-sm font-bold text-ink">
               <span>Net Guaranteed Total:</span>
               <span className="text-base text-ocean font-extrabold">
-                ₹{totalPrice.toLocaleString('en-IN')}
+                {formatPrice(totalPrice)}
               </span>
             </div>
           </div>

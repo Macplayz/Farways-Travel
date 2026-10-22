@@ -19,6 +19,7 @@ import {
 import { Stay } from '@/types/farways';
 import { useCompare } from '@/components/CompareTray';
 import { SafeImage } from '@/components/ui/SafeImage';
+import { useCurrency } from '@/lib/context/CurrencyContext';
 
 interface StayCardProps {
   stay: Stay;
@@ -28,6 +29,7 @@ interface StayCardProps {
 }
 
 export function StayCard({ stay, priceMode, stayNights, onOpenDetails }: StayCardProps) {
+  const { formatPrice } = useCurrency();
   const { isInCompare, addToCompare, removeFromCompare } = useCompare();
   const isCompared = isInCompare(stay.id);
 
@@ -210,20 +212,20 @@ export function StayCard({ stay, priceMode, stayNights, onOpenDetails }: StayCar
             <div className="space-y-1 text-xs text-slate">
               <div className="flex justify-between">
                 <span>Base Rate:</span>
-                <span className="font-medium text-ink">₹{displayedBase.toLocaleString('en-IN')}</span>
+                <span className="font-medium text-ink">{formatPrice(displayedBase)}</span>
               </div>
               <div className="flex justify-between">
                 <span>GST (Taxes):</span>
-                <span className="font-medium text-ink">₹{displayedTax.toLocaleString('en-IN')}</span>
+                <span className="font-medium text-ink">{formatPrice(displayedTax)}</span>
               </div>
               <div className="flex justify-between text-green font-medium">
                 <span>Platform Fee:</span>
-                <span>₹{displayedPlatform} (Zero Markup)</span>
+                <span>{displayedPlatform === 0 ? formatPrice(0) : formatPrice(displayedPlatform)} (Zero Markup)</span>
               </div>
               <div className="flex justify-between items-baseline pt-2 mt-1 border-t border-line text-sm font-bold text-ink">
                 <span>Guaranteed Total:</span>
                 <span className="text-base text-ocean font-extrabold">
-                  ₹{displayedTotal.toLocaleString('en-IN')}
+                  {formatPrice(displayedTotal)}
                 </span>
               </div>
             </div>
