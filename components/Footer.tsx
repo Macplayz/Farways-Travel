@@ -1,9 +1,9 @@
 'use client';
 
 import React from 'react';
+import Image from 'next/image';
 import Link from 'next/link';
 import { 
-  Compass, 
   ShieldCheck, 
   Building2, 
   Plane, 
@@ -116,12 +116,15 @@ export function Footer() {
           
           {/* Brand Info & Mission */}
           <div className="col-span-2 space-y-4">
-            <Link href="/" className="inline-flex items-center gap-2.5">
-              <div className="w-8 h-8 rounded-xl bg-ocean text-white flex items-center justify-center shadow-xs">
-                <Compass className="w-4 h-4" />
-              </div>
-              <span className="text-xl font-black text-ink tracking-tight">
-                Farways
+            <Link href="/" className="inline-flex rounded-md" aria-label="Farways Home">
+              <span className="relative block h-12 w-48 overflow-hidden rounded-md">
+                <Image
+                  src="/farways-logo.png"
+                  alt="Farways"
+                  width={160}
+                  height={160}
+                  className="h-full w-full object-cover object-center"
+                />
               </span>
             </Link>
             <p className="text-slate leading-relaxed max-w-sm">
@@ -232,6 +235,7 @@ export function Footer() {
         <div className="pt-8 mt-8 border-t border-line flex flex-col sm:flex-row items-center justify-between gap-4 text-[11px] text-slate-muted">
           <div>
             © {new Date().getFullYear()} Farways Travel Technologies Inc. All Rights Reserved. Consumer-First Transparent Travel Booking.
+            <span className="block mt-1">Made by: Neelay, Twisha, Param</span>
           </div>
           <div className="flex items-center gap-4">
             <span className="flex items-center gap-1 text-ink font-semibold">

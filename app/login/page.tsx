@@ -1,10 +1,10 @@
 'use client';
 
 import React, { useState, useRef, Suspense } from 'react';
+import Image from 'next/image';
 import Link from 'next/link';
 import { useRouter, useSearchParams } from 'next/navigation';
 import {
-  Compass,
   ShieldCheck,
   Lock,
   Mail,
@@ -335,15 +335,16 @@ function LoginContent() {
           {/* Brand & Attribution Pill */}
           <div className="flex flex-wrap items-center gap-3">
             <Link href="/" className="inline-flex items-center gap-2 group">
-              <div className="w-10 h-10 rounded-xl bg-white/10 backdrop-blur-md text-white flex items-center justify-center border border-white/20 group-hover:bg-white/20 transition-colors">
-                <Compass className="w-6 h-6 transition-transform group-hover:rotate-45 duration-300" />
-              </div>
-              <div>
-                <span className="text-xl font-extrabold tracking-tight block leading-tight">Farways</span>
-                <span className="text-[10px] font-semibold text-sky-deep tracking-wider uppercase block">
-                  Ethical Travel Platform
-                </span>
-              </div>
+              <span className="relative block h-11 w-36 overflow-hidden rounded-md bg-white">
+                <Image
+                  src="/farways-logo.png"
+                  alt="Farways"
+                  width={160}
+                  height={160}
+                  priority
+                  className="h-full w-full object-cover object-center"
+                />
+              </span>
             </Link>
 
             <span className="px-3 py-1 rounded-full text-[11px] font-extrabold bg-white/15 text-white backdrop-blur-md border border-white/20 flex items-center gap-1.5">
