@@ -302,6 +302,7 @@ export interface UserProfile {
   marketingOptIn?: boolean;
   rewardPoints?: number;
   lastLoginAt?: string;
+  is_admin?: boolean;
   savedTravelers?: Array<{
     id: string;
     fullName: string;

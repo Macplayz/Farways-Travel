@@ -1,6 +1,7 @@
 'use client';
 
 import React from 'react';
+import { usePathname } from 'next/navigation';
 import { AuthProvider } from '@/lib/auth/AuthContext';
 import { ToastProvider } from '@/components/ToastProvider';
 import { SessionGuardProvider } from '@/components/SessionGuard';
@@ -11,6 +12,22 @@ import { AiSupportWidget } from '@/components/AiSupportWidget';
 import { Footer } from '@/components/Footer';
 
 export function Providers({ children }: { children: React.ReactNode }) {
+  const pathname = usePathname();
+  const isAdmin = pathname?.startsWith('/admin');
+
+  if (isAdmin) {
+    return (
+      <ToastProvider>
+        <AuthProvider>
+          <div className="min-h-screen bg-slate-950 text-slate-100 font-sans antialiased">
+            {children}
+          </div>
+          <AuthModal />
+        </AuthProvider>
+      </ToastProvider>
+    );
+  }
+
   return (
     <ToastProvider>
       <AuthProvider>

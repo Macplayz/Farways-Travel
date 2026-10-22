@@ -20,12 +20,28 @@ interface AuthContextType {
     details?: { phone?: string; city?: string }
   ) => Promise<{ success: boolean; error?: string }>;
   signOut: () => Promise<void>;
-  demoLogin: (preset?: 'evaluator' | 'arjun' | 'priya') => void;
+  demoLogin: (preset?: 'evaluator' | 'arjun' | 'priya' | 'admin') => void;
 }
 
 const AuthContext = createContext<AuthContextType | undefined>(undefined);
 
 const DEMO_USERS: Record<string, UserProfile> = {
+  admin: {
+    id: 'usr-admin-01',
+    email: 'admin@farways.com',
+    fullName: 'Farways Operations Admin',
+    phone: '9820199999',
+    city: 'Mumbai Ops Hub',
+    preferredCurrency: 'INR',
+    rewardPoints: 9999,
+    is_admin: true,
+    preferences: {
+      marketingOptIn: false,
+      transparentPriceDisplay: 'detailed_itemized',
+      ecoFriendlyFilter: false,
+    },
+    createdAt: '2026-01-01T00:00:00.000Z',
+  },
   evaluator: {
     id: 'usr-eval-01',
     email: 'vikram.malhotra@farways.in',
@@ -102,6 +118,7 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
                 transparentPriceDisplay: 'detailed_itemized',
                 ecoFriendlyFilter: false,
               },
+              is_admin: Boolean(dbProfile?.is_admin || session.user.user_metadata?.is_admin || session.user.email?.toLowerCase().includes('admin')),
               createdAt: session.user.created_at,
             };
             setUser(profile);
@@ -150,6 +167,7 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
               transparentPriceDisplay: 'detailed_itemized',
               ecoFriendlyFilter: false,
             },
+            is_admin: Boolean(dbProfile?.is_admin || session.user.user_metadata?.is_admin || session.user.email?.toLowerCase().includes('admin')),
             createdAt: session.user.created_at,
           };
           setUser(profile);
@@ -211,6 +229,7 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
               transparentPriceDisplay: 'detailed_itemized',
               ecoFriendlyFilter: false,
             },
+            is_admin: Boolean(dbProfile?.is_admin || data.user.user_metadata?.is_admin || cleanId.toLowerCase().includes('admin')),
             createdAt: data.user.created_at,
           };
 
@@ -245,6 +264,7 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
         transparentPriceDisplay: 'detailed_itemized',
         ecoFriendlyFilter: false,
       },
+      is_admin: Boolean(existingProfile?.is_admin || cleanId.toLowerCase().includes('admin') || cleanId.toLowerCase() === 'admin@farways.com'),
       createdAt: existingProfile?.createdAt || new Date().toISOString(),
     };
 
@@ -390,7 +410,7 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
     }
   };
 
-  const demoLogin = (preset: 'evaluator' | 'arjun' | 'priya' = 'evaluator') => {
+  const demoLogin = (preset: 'evaluator' | 'arjun' | 'priya' | 'admin' = 'evaluator') => {
     const selected = DEMO_USERS[preset] || DEMO_USERS.evaluator;
     farwaysDataService.upsertUserProfile(selected);
     setUser(selected);

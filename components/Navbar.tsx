@@ -14,6 +14,7 @@ import {
   LogOut, 
   ChevronDown, 
   ShieldCheck,
+  LayoutDashboard,
   Menu,
   X
 } from 'lucide-react';
@@ -227,6 +228,17 @@ export function Navbar() {
                           <Ticket className="w-4 h-4 text-ocean" />
                           <span>My Dashboard & Bookings</span>
                         </Link>
+
+                        {(user.is_admin || user.email?.toLowerCase().includes('admin') || user.email === 'admin@farways.com') && (
+                          <Link
+                            href="/admin"
+                            onClick={() => setIsUserMenuOpen(false)}
+                            className="flex items-center gap-2 px-3 py-2 text-xs font-bold text-ocean hover:bg-sky-deep/40 rounded-lg transition-colors bg-sky/50"
+                          >
+                            <LayoutDashboard className="w-4 h-4 text-ocean" />
+                            <span>Admin Operations</span>
+                          </Link>
+                        )}
 
                         <div className="border-t border-line my-1"></div>
 

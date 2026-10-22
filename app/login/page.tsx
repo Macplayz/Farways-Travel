@@ -309,15 +309,16 @@ function LoginContent() {
     }
   };
 
-  const handleDemoSelect = (preset: 'evaluator' | 'arjun' | 'priya') => {
+  const handleDemoSelect = (preset: 'evaluator' | 'arjun' | 'priya' | 'admin') => {
     demoLogin(preset);
     const names = {
+      admin: 'Farways Operations Admin',
       evaluator: 'Vikram Malhotra (Frequent Traveler)',
       arjun: 'Arjun Sharma (Verified Traveler)',
       priya: 'Priya Patel (Family Traveler)',
     };
     toast.success(`Logged in as ${names[preset]}`);
-    router.push(redirectUrl);
+    router.push(preset === 'admin' && redirectUrl === '/dashboard' ? '/admin' : redirectUrl);
   };
 
   return (
@@ -856,6 +857,24 @@ function LoginContent() {
             </p>
 
             <div className="space-y-2">
+              {/* Operations Admin */}
+              <button
+                type="button"
+                onClick={() => handleDemoSelect('admin')}
+                className="w-full p-2.5 rounded-xl bg-gradient-to-r from-slate-900 to-ink text-white border border-slate-700 hover:border-ocean hover:shadow-md text-left transition-all cursor-pointer flex items-center justify-between group"
+              >
+                <div>
+                  <div className="text-xs font-extrabold text-white group-hover:text-sky-deep flex items-center gap-1.5">
+                    <span>Farways Operations Admin</span>
+                    <span className="px-1.5 py-0.2 rounded text-[9px] font-bold bg-ocean-light text-ink">Super Admin</span>
+                  </div>
+                  <div className="text-[10px] text-slate-300 mt-0.5">
+                    admin@farways.com • Full Live Inventory CRUD Access
+                  </div>
+                </div>
+                <ArrowRight className="w-4 h-4 text-sky-deep group-hover:translate-x-0.5 transition-transform" />
+              </button>
+
               {/* Frequent Traveler */}
               <button
                 type="button"
